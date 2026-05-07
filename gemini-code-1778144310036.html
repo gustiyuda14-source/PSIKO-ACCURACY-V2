@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AJIKS AKADEMI — Psiko Kecermatan CAT System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B2B4B;
+    --navy-light: #243860;
+    --cream: #F5F0E8;
+    --cream-dark: #EDE6D8;
+    --gold: #C9A96E;
+    --gold-light: #DEC090;
+    --gold-dark: #A8854A;
+    --sage: #4A7C59;
+    --sage-light: #6A9E79;
+    --text-primary: #1B2B4B;
+    --text-secondary: #5A6B8A;
+    --text-muted: #8A9BB8;
+    --border: #D8D0C4;
+    --border-light: #EAE4DC;
+    --white: #FFFFFF;
+    --red: #C0392B;
+    --green: #27AE60;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── SCREENS ── */
+  .screen { display: none; min-height: 100vh; }
+  .screen.active { display: flex; flex-direction: column; }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    background: var(--navy);
+    padding: 14px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(27,43,75,0.3);
+  }
+
+  .topbar-brand {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .topbar-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .topbar-sub {
+    font-size: 10px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .topbar-participant {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 400;
+  }
+
+  .topbar-participant span {
+    color: var(--gold-light);
+    font-weight: 500;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-ribbon {
+    background: var(--navy-light);
+    height: 3px;
+    position: relative;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ── MAIN CONTENT ── */
+  .content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    box-shadow: 0 4px 40px rgba(27,43,75,0.08), 0 1px 8px rgba(27,43,75,0.04);
+    width: 100%;
+    max-width: 680px;
+    overflow: hidden;
+  }
+
+  .card-header {
+    background: var(--navy);
+    padding: 28px 36px;
+    border-bottom: 2px solid var(--gold);
+  }
+
+  .card-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.2;
+  }
+
+  .card-subtitle {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    margin-top: 6px;
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .card-body { padding: 32px 36px; }
+
+  /* ── META GRID ── */
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .meta-item {
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 14px 16px;
+    background: var(--cream);
+  }
+
+  .meta-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .meta-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--navy);
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  /* ── FORM ── */
+  .form-group { margin-bottom: 20px; }
+
+  .form-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    background: var(--cream);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .form-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,169,110,0.15);
+    background: var(--white);
+  }
+
+  .form-input::placeholder { color: var(--text-muted); }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 28px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background: var(--navy);
+    color: var(--gold);
+    width: 100%;
+  }
+
+  .btn-primary:hover {
+    background: var(--navy-light);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(27,43,75,0.25);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--navy);
+    border: 1.5px solid var(--navy);
+    width: 100%;
+  }
+
+  .btn-secondary:hover {
+    background: var(--navy);
+    color: var(--gold);
+  }
+
+  .btn-gold {
+    background: var(--gold);
+    color: var(--navy);
+    width: 100%;
+  }
+
+  .btn-gold:hover {
+    background: var(--gold-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(201,169,110,0.4);
+  }
+
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .btn-arrow::after { content: ' →'; }
+
+  /* ── KEY TABLE ── */
+  .key-table-wrap {
+    margin-bottom: 24px;
+  }
+
+  .key-table-title {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .key-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .key-table th, .key-table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .key-table thead th {
+    background: var(--navy);
+    color: var(--gold);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+  }
+
+  .key-table tbody td {
+    background: var(--cream);
+    font-size: 22px;
+  }
+
+  .key-table tbody tr:hover td { background: var(--cream-dark); }
+
+  /* ── QUESTION CARD ── */
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 16px 36px;
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .q-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .q-progress-text {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  .q-num {
+    font-size: 22px;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  .q-kolom-badge {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--gold-dark);
+    background: rgba(201,169,110,0.12);
+    padding: 4px 10px;
+    border: 1px solid rgba(201,169,110,0.3);
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+
+  .q-progressbar {
+    height: 2px;
+    background: var(--border);
+  }
+
+  .q-progressbar-fill {
+    height: 100%;
+    background: var(--gold);
+    transition: width 0.3s;
+  }
+
+  .q-body { padding: 28px 36px; }
+
+  /* ── KEY TABLE COMPACT (in question) ── */
+  .key-compact {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+  }
+
+  .key-compact th {
+    background: var(--navy);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 8px 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .key-compact td {
+    background: var(--cream);
+    font-size: 20px;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid var(--border);
+  }
+
+  .key-section-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  /* ── SOAL ROW ── */
+  .soal-section { margin-bottom: 24px; }
+
+  .soal-symbols {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .soal-cell {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 2px;
+    padding: 18px 10px;
+    text-align: center;
+    font-size: 28px;
+  }
+
+  /* ── ANSWER OPTIONS ── */
+  .answer-section { margin-bottom: 24px; }
+
+  .answer-options {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .answer-btn {
+    border: 2px solid var(--border);
+    border-radius: 2px;
+    padding: 12px 6px 8px;
+    background: var(--white);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .answer-btn:hover {
+    border-color: var(--gold);
+    background: rgba(201,169,110,0.06);
+  }
+
+  .answer-btn.selected {
+    border-color: var(--navy);
+    background: var(--navy);
+  }
+
+  .answer-btn.selected .ans-letter { color: var(--gold); }
+  .answer-btn.selected .ans-symbol { filter: brightness(10); }
+
+  .ans-letter {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+
+  .ans-symbol { font-size: 22px; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 24px 0;
+  }
+
+  /* ── KOLOM INTRO ── */
+  .kolom-badge {
+    display: inline-block;
+    background: rgba(201,169,110,0.12);
+    border: 1px solid rgba(201,169,110,0.4);
+    color: var(--gold-dark);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+
+  .kolom-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .kolom-instruction {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-top: 12px;
+    padding: 12px 16px;
+    background: var(--cream);
+    border-left: 3px solid var(--gold);
+  }
+
+  /* ── RESULTS ── */
+  .results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .result-stat {
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 20px 16px;
+    text-align: center;
+    background: var(--cream);
+  }
+
+  .result-stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .result-stat-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .stat-correct { color: var(--sage); }
+  .stat-wrong { color: var(--red); }
+  .stat-total { color: var(--navy); }
+
+  .kolom-breakdown {
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+
+  .kolom-breakdown-header {
+    background: var(--navy);
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 12px 16px;
+  }
+
+  .kolom-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 13px;
+  }
+
+  .kolom-row:last-child { border-bottom: none; }
+  .kolom-row:nth-child(even) { background: var(--cream); }
+
+  .kolom-row-name { flex: 1; font-weight: 500; color: var(--text-primary); }
+  .kolom-row-correct { color: var(--sage); font-weight: 600; margin-right: 8px; }
+  .kolom-row-wrong { color: var(--red); font-weight: 600; margin-right: 8px; }
+  .kolom-row-pct { color: var(--text-muted); font-size: 12px; }
+
+  .score-bar-wrap {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    flex: 1;
+    margin: 0 12px;
+  }
+
+  .score-bar-fill {
+    height: 100%;
+    background: var(--sage);
+    border-radius: 2px;
+    transition: width 1s ease;
+  }
+
+  /* ── PERFORMANCE BAND ── */
+  .perf-band {
+    text-align: center;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+
+  .perf-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .perf-grade {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  .perf-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+
+  /* ── LOADER / TRANSITION ── */
+  .transition-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--navy);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .transition-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .transition-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .topbar { padding: 12px 20px; }
+    .card-header, .card-body, .q-body { padding: 20px; }
+    .q-header { padding: 14px 20px; }
+    .meta-grid { grid-template-columns: 1fr; }
+    .answer-options { grid-template-columns: repeat(5, 1fr); }
+    .results-grid { grid-template-columns: 1fr; }
+    .kolom-number { font-size: 38px; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-in { animation: fadeUp 0.4s ease both; }
+</style>
+</head>
+<body>
+
+<div class="transition-overlay" id="transOverlay">
+  <div class="transition-text" id="transText">Memuat kolom berikutnya...</div>
+</div>
+
+<div class="screen active" id="screen-landing">
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-name">Ajiks Akademi</div>
+      <div class="topbar-sub">Capra IPDN · Sultra</div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="card animate-in">
+      <div class="card-header">
+        <div class="card-label">Psiko Test · Kecermatan</div>
+        <div class="card-title">Simulasi Try Out<br>Kecermatan</div>
+        <div class="card-subtitle">Uji kecepatan persepsi dan ketelitian visual simbol</div>
+      </div>
+      <div class="card-body">
+        <div class="meta-grid">
+          <div class="meta-item">
+            <div class="meta-label">Tipe</div>
+            <div class="meta-value">Simbol Hilang</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Jumlah Kolom</div>
+            <div class="meta-value">10 Kolom</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Total Soal</div>
+            <div class="meta-value">500 Butir</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Mode</div>
+            <div class="meta-value">Latihan Bebas</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="participantName">Nama Peserta</label>
+          <input type="text" id="participantName" class="form-input" placeholder="Tulis nama lengkap...">
+        </div>
+
+        <button class="btn btn-primary btn-arrow" onclick="startTest()">Mulai Simulasi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="screen-kolom-intro">
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-name">Ajiks Akademi</div>
+      <div class="topbar-sub">Psiko Kecermatan</div>
+    </div>
+    <div class="topbar-participant">Peserta: <span id="introParticipantName">—</span></div>
+  </div>
+  <div class="progress-ribbon">
+    <div class="progress-fill" id="introProgress" style="width:0%"></div>
+  </div>
+  <div class="content">
+    <div class="card animate-in">
+      <div class="card-header">
+        <div class="card-label" id="introKolomLabel">Kolom 1 dari 10</div>
+        <div class="card-title" id="introKolomTitle">Kolom I</div>
+        <div class="card-subtitle">Pelajari tabel kunci — akan selalu tampil saat tes</div>
+      </div>
+      <div class="card-body">
+        <div class="key-table-wrap">
+          <div class="key-table-title">Tabel Kunci Jawaban</div>
+          <table class="key-table">
+            <thead>
+              <tr id="introKeyHead"></tr>
+            </thead>
+            <tbody>
+              <tr id="introKeyBody"></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="kolom-instruction">
+          <strong>Total: <span id="introQCount">50</span> butir</strong> per kolom<br>
+          Pilih simbol yang <span style="color:var(--gold-dark); font-weight:600">tidak ada</span> pada baris soal. Kerjakan semua soal lalu lanjut ke kolom berikutnya.
+        </div>
+
+        <div style="margin-top: 24px;">
+          <button class="btn btn-gold btn-arrow" onclick="startKolom()" id="startKolomBtn">Mulai Kolom</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="screen-question">
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-name">Ajiks Akademi</div>
+      <div class="topbar-sub">Psiko Kecermatan</div>
+    </div>
+    <div class="topbar-participant" id="qParticipantName"></div>
+  </div>
+  <div class="progress-ribbon">
+    <div class="progress-fill" id="globalProgress" style="width:0%"></div>
+  </div>
+
+  <div class="content" style="padding: 20px;">
+    <div class="card" style="max-width: 720px;">
+      <div class="q-header">
+        <div class="q-meta">
+          <div class="q-progress-text" id="qProgressText">Soal 1/50 / 50</div>
+          <div class="q-num" id="qNumDisplay">Soal 1</div>
+        </div>
+        <div class="q-kolom-badge" id="qKolomBadge">Kolom I (1/10)</div>
+      </div>
+      <div class="q-progressbar">
+        <div class="q-progressbar-fill" id="qProgressBar" style="width:0%"></div>
+      </div>
+
+      <div class="q-body">
+        <div style="margin-bottom:20px;">
+          <div class="key-section-label">Petunjuk Soal</div>
+          <table class="key-compact">
+            <thead><tr id="qKeyHead"></tr></thead>
+            <tbody><tr id="qKeyBody"></tr></tbody>
+          </table>
+        </div>
+
+        <div class="soal-section">
+          <div class="key-section-label">Soal</div>
+          <div class="soal-symbols" id="soalSymbols"></div>
+        </div>
+
+        <div class="answer-section">
+          <div class="key-section-label">Jawaban Anda</div>
+          <div class="answer-options" id="answerOptions"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div style="display:flex; flex-direction: column; gap:12px;">
+          <div style="display:flex; gap:12px;">
+            <button class="btn btn-gold btn-arrow" id="nextBtn" onclick="nextQuestion()" style="flex:1">Berikutnya</button>
+            <button class="btn btn-secondary" id="finishBtn" onclick="finishExam()" style="flex:1; display:none">⬛ Selesai Ujian</button>
+          </div>
+          <button class="btn btn-secondary" id="earlySubmitBtn" onclick="confirmEarlySubmit()" 
+                  style="border-color: var(--red); color: var(--red); font-size: 10px; padding: 10px;">
+            Selesaikan Ujian Sekarang & Lihat Hasil
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="screen-results">
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-name">Ajiks Akademi</div>
+      <div class="topbar-sub">Psiko Kecermatan</div>
+    </div>
+  </div>
+  <div class="content" style="padding: 20px;">
+    <div class="card" style="max-width: 720px;">
+      <div class="card-header">
+        <div class="card-label">Hasil Simulasi Selesai</div>
+        <div class="card-title" id="resultsName">—</div>
+        <div class="card-subtitle" id="resultsDate"></div>
+      </div>
+      <div class="card-body">
+        <div class="results-grid">
+          <div class="result-stat">
+            <div class="result-stat-value stat-correct" id="rCorrect">—</div>
+            <div class="result-stat-label">Benar</div>
+          </div>
+          <div class="result-stat">
+            <div class="result-stat-value stat-wrong" id="rWrong">—</div>
+            <div class="result-stat-label">Salah</div>
+          </div>
+          <div class="result-stat">
+            <div class="result-stat-value stat-total" id="rScore">—</div>
+            <div class="result-stat-label">Skor %</div>
+          </div>
+        </div>
+
+        <div class="perf-band" id="perfBand">
+          <div class="perf-label">Kategori Performa</div>
+          <div class="perf-grade" id="perfGrade">—</div>
+          <div class="perf-desc" id="perfDesc">—</div>
+        </div>
+
+        <div class="kolom-breakdown">
+          <div class="kolom-breakdown-header">Rincian per Kolom</div>
+          <div id="kolomBreakdown"></div>
+        </div>
+
+        <div style="display:flex;gap:12px;">
+          <button class="btn btn-primary" onclick="restartTest()" style="flex:1">↺ Ulangi Simulasi</button>
+          <button class="btn btn-secondary" onclick="window.print()" style="flex:1">⎙ Cetak Hasil</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════
+// DATASET — 10 Kolom × 50 Soal = 500 Butir
+// ════════════════════════════════════════════════════
+
+const KOLOM_DATA = [
+  {
+    name: "Kolom I", roman: "I",
+    symbols: { A:"☀️", B:"☁️", C:"☂️", D:"❄️", E:"⚡" },
+    questions: [
+      {shown:["☁️","☂️","❄️","⚡"],key:"A"},{shown:["☀️","☂️","❄️","⚡"],key:"B"},
+      {shown:["☀️","☁️","❄️","⚡"],key:"C"},{shown:["☀️","☁️","☂️","⚡"],key:"D"},
+      {shown:["☀️","☁️","☂️","❄️"],key:"E"},{shown:["❄️","⚡","☁️","☀️"],key:"C"},
+      {shown:["⚡","☀️","☂️","☁️"],key:"D"},{shown:["☂️","❄️","⚡","☁️"],key:"A"},
+      {shown:["☁️","⚡","❄️","☀️"],key:"C"},{shown:["❄️","☁️","☀️","☂️"],key:"E"},
+      {shown:["☁️","☂️","❄️","☀️"],key:"E"},{shown:["⚡","❄️","☁️","☀️"],key:"C"},
+      {shown:["☂️","☀️","⚡","❄️"],key:"B"},{shown:["☁️","⚡","☀️","☂️"],key:"D"},
+      {shown:["❄️","☂️","☁️","⚡"],key:"A"},{shown:["☀️","⚡","❄️","☂️"],key:"B"},
+      {shown:["☁️","❄️","☀️","⚡"],key:"C"},{shown:["☂️","☁️","⚡","❄️"],key:"A"},
+      {shown:["☀️","☂️","☁️","❄️"],key:"E"},{shown:["⚡","❄️","☀️","☂️"],key:"B"},
+      {shown:["☀️","☁️","❄️","⚡"],key:"C"},{shown:["☂️","⚡","☁️","☀️"],key:"D"},
+      {shown:["❄️","☀️","⚡","☂️"],key:"B"},{shown:["☁️","❄️","☂️","⚡"],key:"A"},
+      {shown:["☀️","☂️","❄️","☁️"],key:"E"},{shown:["⚡","☁️","☀️","❄️"],key:"C"},
+      {shown:["☂️","❄️","⚡","☀️"],key:"B"},{shown:["☁️","☀️","☂️","⚡"],key:"D"},
+      {shown:["❄️","⚡","☁️","☂️"],key:"A"},{shown:["☀️","❄️","☁️","⚡"],key:"C"},
+      {shown:["☂️","☁️","⚡","☀️"],key:"D"},{shown:["❄️","☀️","☂️","☁️"],key:"E"},
+      {shown:["⚡","☁️","❄️","☂️"],key:"A"},{shown:["☀️","⚡","☁️","❄️"],key:"C"},
+      {shown:["☂️","☀️","⚡","❄️"],key:"B"},{shown:["☁️","❄️","☀️","☂️"],key:"E"},
+      {shown:["⚡","☂️","☁️","☀️"],key:"D"},{shown:["❄️","☁️","⚡","☀️"],key:"C"},
+      {shown:["☀️","☂️","❄️","⚡"],key:"B"},{shown:["☁️","⚡","☂️","❄️"],key:"A"},
+      {shown:["❄️","☀️","☁️","⚡"],key:"C"},{shown:["☂️","☁️","☀️","❄️"],key:"E"},
+      {shown:["⚡","❄️","☂️","☁️"],key:"A"},{shown:["☀️","⚡","☁️","☂️"],key:"D"},
+      {shown:["❄️","⚡","☂️","☀️"],key:"B"},{shown:["☁️","❄️","⚡","☀️"],key:"C"},
+      {shown:["☂️","☀️","☁️","❄️"],key:"E"},{shown:["⚡","☁️","☂️","❄️"],key:"A"},
+      {shown:["☁️","☂️","❄️","⚡"],key:"A"}
+    ]
+  },
+  {
+    name: "Kolom II", roman: "II",
+    symbols: { A:"✈️", B:"⛵", C:"🚗", D:"🚲", E:"🚀" },
+    questions: [
+      {shown:["⛵","🚗","🚲","🚀"],key:"A"},{shown:["✈️","🚗","🚲","🚀"],key:"B"},
+      {shown:["✈️","⛵","🚲","🚀"],key:"C"},{shown:["✈️","⛵","🚗","🚀"],key:"D"},
+      {shown:["✈️","⛵","🚗","🚲"],key:"E"},{shown:["🚲","🚀","⛵","✈️"],key:"C"},
+      {shown:["🚀","✈️","🚗","⛵"],key:"D"},{shown:["🚗","🚲","🚀","⛵"],key:"A"},
+      {shown:["⛵","🚀","🚲","✈️"],key:"C"},{shown:["🚲","⛵","✈️","🚗"],key:"E"},
+      {shown:["🚗","🚲","🚀","✈️"],key:"B"},{shown:["✈️","🚗","⛵","✈️"],key:"D"},
+      {shown:["🚲","⛵","🚗","✈️"],key:"E"},{shown:["🚀","✈️","🚲","🚗"],key:"B"},
+      {shown:["✈️","🚲","☁️","⛵"],key:"C"},{shown:["✈️","⛵","🚀","🚲"],key:"C"},
+      {shown:["⛵","🚲","✈️","⚡"],key:"C"},{shown:["🚗","🚀","⛵","❄️"],key:"A"},
+      {shown:["✈️","☂️","🚲","❄️"],key:"E"},{shown:["⚡","❄️","✈️","☂️"],key:"B"},
+      {shown:["⛵","🚗","🚲","🚀"],key:"A"},{shown:["✈️","🚗","🚲","🚀"],key:"B"},
+      {shown:["✈️","⛵","🚲","🚀"],key:"C"},{shown:["✈️","⛵","🚗","🚀"],key:"D"},
+      {shown:["✈️","⛵","🚗","🚲"],key:"E"},{shown:["🚲","🚀","⛵","✈️"],key:"C"},
+      {shown:["🚀","✈️","🚗","⛵"],key:"D"},{shown:["🚗","🚲","🚀","⛵"],key:"A"},
+      {shown:["⛵","🚀","🚲","✈️"],key:"C"},{shown:["🚲","⛵","✈️","🚗"],key:"E"},
+      {shown:["⛵","🚗","🚲","🚀"],key:"A"},{shown:["✈️","🚗","🚲","🚀"],key:"B"},
+      {shown:["✈️","⛵","🚲","🚀"],key:"C"},{shown:["✈️","⛵","🚗","🚀"],key:"D"},
+      {shown:["✈️","⛵","🚗","🚲"],key:"E"},{shown:["🚲","🚀","⛵","✈️"],key:"C"},
+      {shown:["🚀","✈️","🚗","⛵"],key:"D"},{shown:["🚗","🚲","🚀","⛵"],key:"A"},
+      {shown:["⛵","🚀","🚲","✈️"],key:"C"},{shown:["🚲","⛵","✈️","🚗"],key:"E"},
+      {shown:["🚗","🚲","🚀","✈️"],key:"B"},{shown:["✈️","🚲","⛵","🚀"],key:"D"},
+      {shown:["⛵","🚗","✈️","🚲"],key:"E"},{shown:["🚀","🚗","⛵","✈️"],key:"B"},
+      {shown:["🚲","⛵","🚗","✈️"],key:"E"},{shown:["🚀","🚲","🚗","✈️"],key:"C"},
+      {shown:["⛵","🚗","🚲","🚀"],key:"A"},{shown:["✈️","🚗","🚲","🚀"],key:"B"},
+      {shown:["🚲","🚗","⛵","🚀"],key:"A"}
+    ]
+  },
+  {
+    name: "Kolom III", roman: "III",
+    symbols: { A:"✂️", B:"✏️", C:"⚙️", D:"🔑", E:"💡" },
+    questions: [
+      {shown:["✏️","⚙️","🔑","💡"],key:"A"},{shown:["✂️","⚙️","🔑","💡"],key:"B"},
+      {shown:["✂️","✏️","🔑","💡"],key:"C"},{shown:["✂️","✏️","⚙️","💡"],key:"D"},
+      {shown:["✂️","✏️","⚙️","🔑"],key:"E"},{shown:["🔑","💡","✏️","✂️"],key:"C"},
+      {shown:["💡","✂️","⚙️","✏️"],key:"D"},{shown:["⚙️","🔑","💡","✏️"],key:"A"},
+      {shown:["✏️","💡","🔑","✂️"],key:"C"},{shown:["🔑","✏️","✂️","⚙️"],key:"E"},
+      {shown:["⚙️","💡","✂️","✏️"],key:"D"},{shown:["🔑","✂️","✏️","💡"],key:"C"},
+      {shown:["💡","⚙️","✂️","🔑"],key:"B"},{shown:["✏️","🔑","💡","⚙️"],key:"A"},
+      {shown:["✂️","💡","✏️","⚙️"],key:"D"},{shown:["🔑","⚙️","💡","✂️"],key:"B"},
+      {shown:["✏️","✂️","⚙️","💡"],key:"D"},{shown:["💡","🔑","✂️","✏️"],key:"A"},
+      {shown:["⚙️","✏️","💡","🔑"],key:"C"},{shown:["✂️","⚙️","🔑","✏️"],key:"B"},
+      {shown:["✂️","✏️","🔑","💡"],key:"C"},{shown:["🔑","✂️","✏️","💡"],key:"E"},
+      {shown:["✏️","🔑","⚙️","✂️"],key:"C"},{shown:["🔑","💡","⚙️","✏️"],key:"A"},
+      {shown:["✏️","💡","🔑","✂️"],key:"C"},{shown:["⚙️","✂️","✏️","💡"],key:"D"},
+      {shown:["🔑","💡","✂️","⚙️"],key:"B"},{shown:["✏️","🔑","💡","⚙️"],key:"A"},
+      {shown:["💡","✂️","✏️","🔑"],key:"C"},{shown:["⚙️","💡","✂️","✏️"],key:"D"},
+      {shown:["🔑","✂️","⚙️","💡"],key:"B"},{shown:["✏️","💡","🔑","⚙️"],key:"C"},
+      {shown:["🔑","✂️","💡","⚙️"],key:"B"},{shown:["💡","✏️","✂️","⚙️"],key:"D"},
+      {shown:["✂️","⚙️","✏️","💡"],key:"D"},{shown:["🔑","💡","✂️","⚙️"],key:"B"},
+      {shown:["✏️","🔑","💡","✂️"],key:"C"},{shown:["⚙️","✂️","✏️","💡"],key:"D"},
+      {shown:["🔑","✂️","⚙️","💡"],key:"B"},{shown:["✏️","✂️","⚙️","💡"],key:"D"},
+      {shown:["💡","⚙️","✏️","🔑"],key:"C"},{shown:["✂️","⚙️","🔑","💡"],key:"B"},
+      {shown:["✏️","🔑","💡","⚙️"],key:"A"},{shown:["⚙️","💡","✂️","✏️"],key:"D"},
+      {shown:["🔑","✂️","✏️","💡"],key:"C"},{shown:["💡","⚙️","✂️","🔑"],key:"B"},
+      {shown:["✏️","🔑","⚙️","✂️"],key:"E"},{shown:["⚙️","💡","✂️","🔑"],key:"C"},
+      {shown:["✏️","⚙️","🔑","💡"],key:"A"}
+    ]
+  },
+  {
+    name: "Kolom IV", roman: "IV",
+    symbols: { A:"☕", B:"🍔", C:"🍕", D:"🍩", E:"🍓" },
+    questions: [
+      {shown:["🍔","🍕","🍩","🍓"],key:"A"},{shown:["☕","🍕","🍩","🍓"],key:"B"},
+      {shown:["☕","🍔","🍩","🍓"],key:"C"},{shown:["☕","🍔","🍕","🍓"],key:"D"},
+      {shown:["☕","🍔","🍕","🍩"],key:"E"},{shown:["🍩","🍓","🍔","☕"],key:"C"},
+      {shown:["🍓","☕","🍕","🍔"],key:"D"},{shown:["🍕","🍩","🍓","🍔"],key:"A"},
+      {shown:["🍔","🍓","🍩","☕"],key:"C"},{shown:["🍩","🍔","☕","🍕"],key:"E"},
+      {shown:["🍓","🍕","🍔","☕"],key:"D"},{shown:["🍩","☕","🍓","🍕"],key:"B"},
+      {shown:["🍔","🍩","🍕","🍓"],key:"A"},{shown:["☕","🍓","🍩","🍔"],key:"C"},
+      {shown:["🍕","🍔","☕","🍓"],key:"D"},{shown:["🍩","☕","🍕","🍔"],key:"E"},
+      {shown:["🍓","🍕","🍩","🍔"],key:"A"},{shown:["☕","🍔","🍓","🍕"],key:"E"},
+      {shown:["🍕","🍩","☕","🍓"],key:"B"},{shown:["🍔","🍓","🍕","🍩"],key:"A"},
+      {shown:["☕","🍔","🍩","🍕"],key:"E"},{shown:["🍕","🍔","☕","🍩"],key:"B"},
+      {shown:["🍩","☕","🍔","🍓"],key:"C"},{shown:["🍩","🍕","🍔","🍓"],key:"A"},
+      {shown:["☕","🍔","🍓","🍩"],key:"C"},{shown:["🍕","🍩","🍔","☕"],key:"E"},
+      {shown:["🍓","☕","🍔","🍩"],key:"B"},{shown:["🍔","🍩","☕","🍓"],key:"C"},
+      {shown:["🍩","🍕","☕","🍔"],key:"D"},{shown:["☕","🍔","🍕","🍩"],key:"E"},
+      {shown:["🍓","🍕","🍩","🍔"],key:"A"},{shown:["☕","🍩","🍓","🍔"],key:"C"},
+      {shown:["🍕","🍔","☕","🍩"],key:"E"},{shown:["🍓","☕","🍕","🍔"],key:"B"},
+      {shown:["🍩","🍔","🍓","☕"],key:"C"},{shown:["🍕","🍩","🍔","☕"],key:"E"},
+      {shown:["🍓","🍕","🍩","🍔"],key:"A"},{shown:["☕","🍔","🍓","🍕"],key:"C"},
+      {shown:["🍩","🍕","☕","🍔"],key:"D"},{shown:["🍔","🍓","🍕","🍩"],key:"A"},
+      {shown:["☕","🍔","🍩","🍓"],key:"E"},{shown:["🍕","🍩","🍔","🍓"],key:"A"},
+      {shown:["🍓","☕","🍕","🍩"],key:"D"},{shown:["🍩","🍕","🍔","🍓"],key:"A"},
+      {shown:["☕","🍔","🍕","🍓"],key:"E"},{shown:["🍓","☕","🍔","🍩"],key:"D"},
+      {shown:["🍔","🍩","☕","🍓"],key:"C"},{shown:["🍕","🍔","☕","🍩"],key:"E"},
+      {shown:["🍔","🍕","🍩","🍓"],key:"A"}
+    ]
+  },
+  {
+    name: "Kolom V", roman: "V",
+    symbols: { A:"♠️", B:"♥️", C:"♦️", D:"♣️", E:"⭐" },
+    questions: [
+      {shown:["♥️","♦️","♣️","⭐"],key:"A"},{shown:["♠️","♦️","♣️","⭐"],key:"B"},
+      {shown:["♠️","♥️","♣️","⭐"],key:"C"},{shown:["♠️","♥️","♦️","⭐"],key:"D"},
+      {shown:["♠️","♥️","♦️","♣️"],key:"E"},{shown:["♣️","⭐","♥️","♠️"],key:"C"},
+      {shown:["⭐","♠️","♦️","♥️"],key:"D"},{shown:["♦️","♣️","⭐","♥️"],key:"A"},
+      {shown:["♥️","⭐","♣️","♠️"],key:"C"},{shown:["♣️","♥️","♠️","♦️"],key:"E"},
+      {shown:["⭐","♦️","♣️","♠️"],key:"B"},{shown:["♥️","♠️","⭐","♦️"],key:"D"},
+      {shown:["♣️","⭐","♦️","♥️"],key:"A"},{shown:["♠️","♣️","♥️","⭐"],key:"C"},
+      {shown:["♦️","♥️","♠️","♣️"],key:"E"},{shown:["⭐","♠️","♣️","♦️"],key:"B"},
+      {shown:["♥️","♣️","⭐","♠️"],key:"C"},{shown:["♦️","⭐","♠️","♥️"],key:"D"},
+      {shown:["♣️","♥️","♦️","⭐"],key:"A"},{shown:["♠️","⭐","♥️","♣️"],key:"C"},
+      {shown:["♦️","♠️","♣️","⭐"],key:"B"},{shown:["♥️","♦️","♠️","♣️"],key:"E"},
+      {shown:["⭐","♣️","♠️","♥️"],key:"C"},{shown:["♦️","♥️","♣️","⭐"],key:"A"},
+      {shown:["♠️","♣️","⭐","♥️"],key:"C"},{shown:["♦️","♠️","♥️","⭐"],key:"D"},
+      {shown:["♣️","⭐","♠️","♦️"],key:"B"},{shown:["♥️","♣️","♦️","♠️"],key:"E"},
+      {shown:["⭐","♠️","♥️","♣️"],key:"C"},{shown:["♦️","♣️","♠️","⭐"],key:"B"},
+      {shown:["♥️","⭐","♦️","♣️"],key:"A"},{shown:["♠️","♦️","♣️","♥️"],key:"E"},
+      {shown:["⭐","♥️","♠️","♦️"],key:"D"},{shown:["♣️","♠️","⭐","♥️"],key:"C"},
+      {shown:["♦️","⭐","♥️","♣️"],key:"A"},{shown:["♠️","♣️","♦️","⭐"],key:"B"},
+      {shown:["♥️","♦️","⭐","♠️"],key:"D"},{shown:["⭐","♠️","♣️","♥️"],key:"C"},
+      {shown:["♦️","♣️","♠️","⭐"],key:"B"},{shown:["♥️","⭐","♠️","♦️"],key:"D"},
+      {shown:["⭐","♦️","♣️","♠️"],key:"B"},{shown:["♠️","♥️","♣️","♦️"],key:"E"},
+      {shown:["♥️","♣️","⭐","♦️"],key:"A"},{shown:["♣️","♦️","♥️","⭐"],key:"A"},
+      {shown:["♥️","⭐","♠️","♣️"],key:"C"},{shown:["♠️","⭐","♦️","♣️"],key:"B"},
+      {shown:["♥️","♦️","⭐","♠️"],key:"D"},{shown:["⭐","♠️","♦️","♥️"],key:"D"},
+      {shown:["♥️","♦️","♣️","⭐"],key:"A"}
+    ]
+  },
+  {
+    name: "Kolom VI", roman: "VI",
+    symbols: { A:"🐶", B:"🐱", C:"🐭", D:"🦊", E:"🐻" },
+    questions: [
+      {shown:["🐱","🐭","🦊","🐻"],key:"A"},{shown:["🐶","🐭","🦊","🐻"],key:"B"},
+      {shown:["🐶","🐱","🦊","🐻"],key:"C"},{shown:["🐶","🐱","🐭","🐻"],key:"D"},
+      {shown:["🐶","🐱","🐭","🦊"],key:"E"},{shown:["🦊","🐻","🐱","🐶"],key:"C"},
+      {shown:["🐻","🐶","🐭","🐱"],key:"D"},{shown:["🐭","🦊","🐻","🐱"],key:"A"},
+      {shown:["🐱","🐻","🦊","🐶"],key:"C"},{shown:["🦊","🐱","🐶","🐭"],key:"E"},
+      {shown:["🐻","🐭","🦊","🐶"],key:"B"},{shown:["🐱","🐶","🐻","🐭"],key:"D"},
+      {shown:["🦊","🐻","🐭","🐱"],key:"A"},{shown:["🐶","🦊","🐱","🐻"],key:"C"},
+      {shown:["🐭","🐱","🐶","🦊"],key:"E"},{shown:["🐻","🐶","🦊","🐭"],key:"B"},
+      {shown:["🐱","🦊","🐻","🐶"],key:"C"},{shown:["🐭","🐻","🐶","🐱"],key:"D"},
+      {shown:["🦊","🐱","🐭","🐻"],key:"A"},{shown:["🐶","🦊","🐭","🐱"],key:"E"},
+      {shown:["🐻","🦊","🐱","🐭"],key:"A"},{shown:["🐶","🐻","🐱","🐭"],key:"D"},
+      {shown:["🐱","🐭","🐻","🐶"],key:"C"},{shown:["🐭","🐱","🦊","🐻"],key:"A"},
+      {shown:["🐶","🦊","🐻","🐱"],key:"C"},{shown:["🐭","🐻","🦊","🐱"],key:"D"},
+      {shown:["🦊","🐶","🐱","🐻"],key:"C"},{shown:["🐱","🦊","🐭","🐶"],key:"E"},
+      {shown:["🐻","🐶","🦊","🐭"],key:"B"},{shown:["🐭","🐱","🦊","🐻"],key:"A"},
+      {shown:["🐶","🐻","🐱","🦊"],key:"C"},{shown:["🐭","🐶","🐱","🐻"],key:"D"},
+      {shown:["🦊","🐶","🐭","🐻"],key:"B"},{shown:["🐱","🦊","🐻","🐶"],key:"C"},
+      {shown:["🐭","🐱","🐶","🦊"],key:"E"},{shown:["🐻","🐶","🦊","🐭"],key:"B"},
+      {shown:["🦊","🐻","🐶","🐭"],key:"A"},{shown:["🐶","🦊","🐭","🐻"],key:"B"},
+      {shown:["🐱","🐭","🐻","🐶"],key:"C"},{shown:["🐭","🐻","🦊","🐱"],key:"A"},
+      {shown:["🦊","🐱","🐶","🐻"],key:"C"},{shown:["🐻","🦊","🐱","🐭"],key:"A"},
+      {shown:["🐱","🐭","🦊","🐶"],key:"E"},{shown:["🐶","🐱","🐻","🦊"],key:"C"},
+      {shown:["🐭","🐻","🐶","🐱"],key:"D"},{shown:["🦊","🐶","🐭","🐻"],key:"B"},
+      {shown:["🐱","🦊","🐻","🐶"],key:"C"},{shown:["🐻","🐶","🦊","🐭"],key:"B"},
+      {shown:["🐱","🐭","🦊","🐻"],key:"A"}
+    ]
+  },
+  {
+    name: "Kolom VII", roman: "VII",
+    symbols: { A:"😀", B:"😂", C:"😎", D:"😡", E:"😭" },
+    questions: [
+      {shown:["😂","😎","😡","😭"],key:"A"},{shown:["😀","😎","😡","😭"],key:"B"},
+      {shown:["😀","😂","😡","😭"],key:"C"},{shown:["😀","😂","😎","😭"],key:"D"},
+      {shown:["😀","😂","😎","😡"],key:"E"},{shown:["😡","😭","😂","😀"],key:"C"},
+      {shown:["😭","😀","😎","😂"],key:"D"},{shown:["😎","😡","😭","😂"],key:"A"},
+      {shown:["😂","😭","😡","😀"],key:"C"},{shown:["😡","😂","😀","😎"],key:"E"},
+      {shown:["😭","😎","😡","😀"],key:"B"},{shown:["😂","😀","😭","😎"],key:"D"},
+      {shown:["😡","😭","😎","😂"],key:"A"},{shown:["😀","😡","😂","😭"],key:"C"},
+      {shown:["😎","😂","😀","😡"],key:"E"},{shown:["😭","😀","😡","😎"],key:"B"},
+      {shown:["😂","😡","😭","😀"],key:"C"},{shown:["😎","😭","😀","😂"],key:"D"},
+      {shown:["😡","😂","😎","😭"],key:"A"},{shown:["😀","😭","😂","😡"],key:"C"},
+      {shown:["😎","😀","😡","😭"],key:"B"},{shown:["😂","😎","😀","😡"],key:"E"},
+      {shown:["😭","😡","😂","😀"],key:"C"},{shown:["😎","😂","😡","😭"],key:"A"},
+      {shown:["😀","😡","😭","😂"],key:"C"},{shown:["😎","😭","😀","😂"],key:"D"},
+      {shown:["😡","😭","😀","😎"],key:"B"},{shown:["😂","😡","😎","😀"],key:"E"},
+      {shown:["😭","😀","😂","😡"],key:"C"},{shown:["😎","😂","😀","😡"],key:"E"},
+      {shown:["😡","😭","😎","😂"],key:"A"},{shown:["😀","😡","😂","😭"],key:"C"},
+      {shown:["😎","😂","😡","😭"],key:"A"},{shown:["😭","😀","😎","😡"],key:"B"},
+      {shown:["😡","😭","😀","😎"],key:"B"},{shown:["😂","😡","😭","😀"],key:"C"},
+      {shown:["😎","😀","😂","😭"],key:"D"},{shown:["😭","😎","😡","😂"],key:"A"},
+      {shown:["😀","😭","😎","😂"],key:"D"},{shown:["😡","😀","😂","😎"],key:"E"},
+      {shown:["😭","😂","😀","😎"],key:"D"},{shown:["😎","😂","😡","😭"],key:"A"},
+      {shown:["😀","😡","😭","😎"],key:"B"},{shown:["😂","😭","😎","😀"],key:"D"},
+      {shown:["😡","😀","😂","😎"],key:"E"},{shown:["😭","😀","😂","😡"],key:"C"},
+      {shown:["😂","😎","😡","😭"],key:"A"}
+    ]
+  },
+  {
+    name: "Kolom VIII", roman: "VIII",
+    symbols: { A:"⚽", B:"🏀", C:"🏈", D:"🎾", E:"🎱" },
+    questions: [
+      {shown:["🏀","🏈","🎾","🎱"],key:"A"},{shown:["⚽","🏈","🎾","🎱"],key:"B"},
+      {shown:["⚽","🏀","🎾","🎱"],key:"C"},{shown:["⚽","🏀","🏈","🎱"],key:"D"},
+      {shown:["⚽","🏀","🏈","🎾"],key:"E"},{shown:["🎾","🎱","🏀","⚽"],key:"C"},
+      {shown:["🎱","⚽","🏈","🏀"],key:"D"},{shown:["🏈","🎾","🎱","🏀"],key:"A"},
+      {shown:["🏀","🎱","🎾","⚽"],key:"C"},{shown:["🎾","🏀","⚽","🏈"],key:"E"},
+      {shown:["🎱","⚽","🎾","🏈"],key:"B"},{shown:["🏀","⚽","🎱","🏈"],key:"D"},
+      {shown:["🎾","🎱","🏈","🏀"],key:"A"},{shown:["⚽","🎾","🏀","🎱"],key:"C"},
+      {shown:["🏈","🏀","⚽","🎾"],key:"E"},{shown:["🎱","⚽","🎾","🏈"],key:"B"},
+      {shown:["🏀","🎾","🎱","⚽"],key:"C"},{shown:["🏈","🎱","⚽","🏀"],key:"D"},
+      {shown:["🎾","🏀","🏈","🎱"],key:"A"},{shown:["⚽","🏈","🎾","🏀"],key:"E"},
+      {shown:["🎱","🏀","⚽","🏈"],key:"C"},{shown:["🏈","⚽","🏀","🎱"],key:"D"},
+      {shown:["🎾","🎱","🏀","⚽"],key:"C"},{shown:["🏈","🏀","🎾","🎱"],key:"A"},
+      {shown:["⚽","🎾","🎱","🏀"],key:"C"},{shown:["🏈","⚽","🏀","🎱"],key:"D"},
+      {shown:["🏀","🏈","⚽","🎾"],key:"E"},{shown:["🎾","🏀","🏈","⚽"],key:"B"},
+      {shown:["🎱","⚽","🏀","🎾"],key:"C"},{shown:["🏈","🏀","⚽","🎾"],key:"E"},
+      {shown:["🎱","🎾","🏀","⚽"],key:"C"},{shown:["🏈","🏀","🎾","🎱"],key:"A"},
+      {shown:["⚽","🎾","🎱","🏈"],key:"B"},{shown:["🏀","🎱","⚽","🏈"],key:"D"},
+      {shown:["🎾","🎱","🏈","🏀"],key:"A"},{shown:["🏀","🎾","🎱","⚽"],key:"C"},
+      {shown:["🏈","⚽","🏀","🎱"],key:"D"},{shown:["🎾","🏀","🏈","🎱"],key:"A"},
+      {shown:["🎱","⚽","🏈","🏀"],key:"B"},{shown:["⚽","🎱","🎾","🏀"],key:"C"},
+      {shown:["🏈","⚽","🏀","🎾"],key:"E"},{shown:["🎱","🏀","⚽","🏈"],key:"D"},
+      {shown:["⚽","🏈","🎾","🏀"],key:"E"},{shown:["🏀","🎱","⚽","🏈"],key:"D"},
+      {shown:["🏀","🏈","🎾","🎱"],key:"A"}
+    ]
+  },
+  {
+    name: "Kolom IX", roman: "IX",
+    symbols: { A:"🌸", B:"🌲", C:"🌵", D:"☘️", E:"🍁" },
+    questions: [
+      {shown:["🌲","🌵","☘️","🍁"],key:"A"},{shown:["🌸","🌵","☘️","🍁"],key:"B"},
+      {shown:["🌸","🌲","☘️","🍁"],key:"C"},{shown:["🌸","🌲","🌵","🍁"],key:"D"},
+      {shown:["🌸","🌲","🌵","☘️"],key:"E"},{shown:["☘️","🍁","🌲","🌸"],key:"C"},
+      {shown:["🍁","🌸","🌵","🌲"],key:"D"},{shown:["🌵","☘️","🍁","🌲"],key:"A"},
+      {shown:["🌲","🍁","☘️","🌸"],key:"C"},{shown:["☘️","🌲","🌸","🌵"],key:"E"},
+      {shown:["🍁","🌵","☘️","🌸"],key:"B"},{shown:["🌲","🌸","🍁","🌵"],key:"D"},
+      {shown:["☘️","🍁","🌵","🌲"],key:"A"},{shown:["🌸","☘️","🌲","🍁"],key:"C"},
+      {shown:["🌵","🌲","🌸","☘️"],key:"E"},{shown:["🍁","🌸","☘️","🌵"],key:"B"},
+      {shown:["🌲","☘️","🍁","🌸"],key:"C"},{shown:["🌵","🍁","🌸","🌲"],key:"D"},
+      {shown:["☘️","🌲","🌵","🍁"],key:"A"},{shown:["🌸","🍁","🌲","☘️"],key:"C"},
+      {shown:["🌵","🌸","☘️","🍁"],key:"B"},{shown:["🌲","🌵","🌸","☘️"],key:"E"},
+      {shown:["🍁","☘️","🌲","🌸"],key:"C"},{shown:["🌵","🌲","☘️","🍁"],key:"A"},
+      {shown:["🌸","☘️","🍁","🌲"],key:"C"},{shown:["🌵","🌸","🌲","🍁"],key:"D"},
+      {shown:["☘️","🍁","🌸","🌵"],key:"B"},{shown:["🌲","☘️","🍁","🌸"],key:"C"},
+      {shown:["🍁","🌸","🌲","☘️"],key:"C"},{shown:["🌵","☘️","🌸","🌲"],key:"E"},
+      {shown:["🍁","🌲","🌵","☘️"],key:"A"},{shown:["🌸","🌵","☘️","🌲"],key:"E"},
+      {shown:["☘️","🌵","🌲","🌸"],key:"B"},{shown:["🌲","☘️","🌵","🍁"],key:"B"},
+      {shown:["🌸","🍁","☘️","🌲"],key:"C"},{shown:["🌵","🌲","🌸","☘️"],key:"E"},
+      {shown:["🍁","🌸","🌵","☘️"],key:"B"},{shown:["🌲","☘️","🍁","🌸"],key:"C"},
+      {shown:["🌵","🌸","☘️","🍁"],key:"E"},{shown:["🍁","🌵","☘️","🌲"],key:"A"},
+      {shown:["🌸","☘️","🍁","🌵"],key:"B"},{shown:["🌲","🍁","🌵","🌸"],key:"D"},
+      {shown:["☘️","🌲","🌸","🌵"],key:"E"},{shown:["🍁","🌸","🌲","☘️"],key:"C"},
+      {shown:["🌵","☘️","🌸","🌲"],key:"A"},{shown:["🌲","☘️","🌵","🌸"],key:"D"},
+      {shown:["🌲","🌵","☘️","🍁"],key:"A"}
+    ]
+  },
+  {
+    name: "Kolom X", roman: "X",
+    symbols: { A:"💻", B:"📱", C:"⌚", D:"📸", E:"📺" },
+    questions: [
+      {shown:["📱","⌚","📸","📺"],key:"A"},{shown:["💻","⌚","📸","📺"],key:"B"},
+      {shown:["💻","📱","📸","📺"],key:"C"},{shown:["💻","📱","⌚","📺"],key:"D"},
+      {shown:["💻","📱","⌚","📸"],key:"E"},{shown:["📸","📺","📱","💻"],key:"C"},
+      {shown:["📺","💻","⌚","📱"],key:"D"},{shown:["⌚","📸","📺","📱"],key:"A"},
+      {shown:["📱","📺","📸","💻"],key:"C"},{shown:["📸","📱","💻","⌚"],key:"E"},
+      {shown:["📺","⌚","📸","💻"],key:"B"},{shown:["📱","💻","📺","⌚"],key:"D"},
+      {shown:["📸","📺","📱","💻"],key:"C"},{shown:["💻","📸","📱","📺"],key:"C"},
+      {shown:["⌚","📱","💻","📸"],key:"E"},{shown:["📺","💻","📸","⌚"],key:"B"},
+      {shown:["📱","📸","📺","💻"],key:"C"},{shown:["⌚","📺","💻","📱"],key:"D"},
+      {shown:["📸","📱","⌚","📺"],key:"A"},{shown:["💻","📺","📱","📸"],key:"C"},
+      {shown:["⌚","💻","📸","📺"],key:"B"},{shown:["📱","⌚","💻","📸"],key:"E"},
+      {shown:["📸","📺","📱","⌚"],key:"A"},{shown:["📺","📱","💻","⌚"],key:"D"},
+      {shown:["💻","📸","📱","📺"],key:"C"},{shown:["⌚","💻","📱","📺"],key:"D"},
+      {shown:["📸","📺","💻","⌚"],key:"B"},{shown:["📱","📸","⌚","💻"],key:"E"},
+      {shown:["📺","💻","📱","📸"],key:"C"},{shown:["⌚","📱","📸","📺"],key:"A"},
+      {shown:["💻","📸","📺","📱"],key:"C"},{shown:["📱","⌚","💻","📺"],key:"E"},
+      {shown:["📺","📱","📸","⌚"],key:"A"},{shown:["💻","📺","⌚","📱"],key:"D"},
+      {shown:["📸","📱","💻","📺"],key:"C"},{shown:["⌚","💻","📱","📺"],key:"D"},
+      {shown:["📺","💻","📱","📸"],key:"E"},{shown:["📸","📺","💻","⌚"],key:"B"},
+      {shown:["📱","⌚","📺","📸"],key:"A"},{shown:["💻","📺","⌚","📱"],key:"D"},
+      {shown:["📸","📱","💻","⌚"],key:"E"},{shown:["📺","📱","⌚","💻"],key:"D"},
+      {shown:["📸","📺","📱","⌚"],key:"A"},{shown:["⌚","📱","📸","📺"],key:"A"},
+      {shown:["📱","⌚","📸","📺"],key:"A"}
+    ]
+  }
+];
+
+// ════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════
+let state = {
+  participantName: "",
+  currentKolom: 0,
+  currentQuestion: 0,
+  answers: [], // array of arrays [kolomIdx][qIdx] = selected key
+  kolomAnswers: [], // current kolom's answers
+};
+
+const ROMAN = ["I","II","III","IV","V","VI","VII","VIII","IX","X"];
+
+// ════════════════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+}
+
+function globalProgress() {
+  const total = KOLOM_DATA.length * 50;
+  const done = state.currentKolom * 50 + state.currentQuestion;
+  return (done / total) * 100;
+}
+
+function renderKeyRow(headEl, bodyEl, kolom) {
+  const syms = kolom.symbols;
+  headEl.innerHTML = ['A','B','C','D','E'].map(l => `<th>${l}</th>`).join('');
+  bodyEl.innerHTML = ['A','B','C','D','E'].map(l => `<td>${syms[l]}</td>`).join('');
+}
+
+function transition(text, cb) {
+  const overlay = document.getElementById('transOverlay');
+  document.getElementById('transText').textContent = text;
+  overlay.classList.add('active');
+  setTimeout(() => {
+    cb();
+    setTimeout(() => overlay.classList.remove('active'), 300);
+  }, 600);
+}
+
+// ════════════════════════════════════════════════════
+// FLOW
+// ════════════════════════════════════════════════════
+function startTest() {
+  const name = document.getElementById('participantName').value.trim();
+  if (!name) {
+    document.getElementById('participantName').focus();
+    document.getElementById('participantName').style.borderColor = '#C0392B';
+    setTimeout(() => document.getElementById('participantName').style.borderColor = '', 1500);
+    return;
+  }
+  state.participantName = name;
+  state.currentKolom = 0;
+  state.answers = [];
+  goToKolomIntro();
+}
+
+function goToKolomIntro() {
+  const k = KOLOM_DATA[state.currentKolom];
+  document.getElementById('introParticipantName').textContent = state.participantName;
+  document.getElementById('introKolomLabel').textContent = `Kolom ${ROMAN[state.currentKolom]} dari X`;
+  document.getElementById('introKolomTitle').textContent = k.name;
+  document.getElementById('introQCount').textContent = k.questions.length;
+  document.getElementById('introProgress').style.width = globalProgress() + '%';
+
+  const headEl = document.getElementById('introKeyHead');
+  const bodyEl = document.getElementById('introKeyBody');
+  renderKeyRow(headEl, bodyEl, k);
+
+  state.currentQuestion = 0;
+  state.kolomAnswers = new Array(k.questions.length).fill(null);
+
+  showScreen('kolom-intro');
+}
+
+function startKolom() {
+  showQuestion();
+}
+
+function showQuestion() {
+  const k = KOLOM_DATA[state.currentKolom];
+  const q = k.questions[state.currentQuestion];
+  const qIdx = state.currentQuestion;
+  const total = k.questions.length;
+  const isLast = qIdx === total - 1;
+  const isLastKolom = state.currentKolom === KOLOM_DATA.length - 1;
+
+  // Progress
+  document.getElementById('globalProgress').style.width = globalProgress() + '%';
+  document.getElementById('qProgressText').textContent = `Soal ${qIdx+1}/${total}`;
+  document.getElementById('qNumDisplay').textContent = `Soal ${qIdx + 1 + state.currentKolom * 50}`;
+  document.getElementById('qKolomBadge').textContent = `${k.name} (${state.currentKolom+1}/10)`;
+  document.getElementById('qParticipantName').innerHTML = state.participantName;
+  document.getElementById('qProgressBar').style.width = ((qIdx+1)/total*100) + '%';
+
+  // Key table
+  renderKeyRow(document.getElementById('qKeyHead'), document.getElementById('qKeyBody'), k);
+
+  // Soal symbols
+  const soalEl = document.getElementById('soalSymbols');
+  soalEl.innerHTML = q.shown.map(s => `<div class="soal-cell">${s}</div>`).join('');
+
+  // Answer options
+  const ansEl = document.getElementById('answerOptions');
+  const selected = state.kolomAnswers[qIdx];
+  const opts = ['A','B','C','D','E'];
+  ansEl.innerHTML = opts.map(l => `
+    <button class="answer-btn ${selected === l ? 'selected' : ''}"
+      onclick="selectAnswer('${l}')" id="ans-${l}">
+      <span class="ans-letter">${l}</span>
+      <span class="ans-symbol">${k.symbols[l]}</span>
+    </button>
+  `).join('');
+
+  // Buttons
+  const nextBtn = document.getElementById('nextBtn');
+  const finishBtn = document.getElementById('finishBtn');
+  const earlySubmitBtn = document.getElementById('earlySubmitBtn');
+
+  if (isLast && isLastKolom) {
+    nextBtn.style.display = 'none';
+    finishBtn.style.display = 'flex';
+    earlySubmitBtn.style.display = 'none';
+  } else if (isLast) {
+    nextBtn.textContent = `Lanjut ke ${KOLOM_DATA[state.currentKolom+1]?.name || 'Selesai'} →`;
+    nextBtn.style.display = 'flex';
+    finishBtn.style.display = 'none';
+    earlySubmitBtn.style.display = 'block';
+  } else {
+    nextBtn.textContent = 'Berikutnya →';
+    nextBtn.style.display = 'flex';
+    finishBtn.style.display = 'none';
+    earlySubmitBtn.style.display = 'block';
+  }
+
+  showScreen('question');
+}
+
+function selectAnswer(key) {
+  state.kolomAnswers[state.currentQuestion] = key;
+  document.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
+  const btn = document.getElementById('ans-' + key);
+  if (btn) btn.classList.add('selected');
+}
+
+function nextQuestion() {
+  const k = KOLOM_DATA[state.currentKolom];
+  const isLast = state.currentQuestion === k.questions.length - 1;
+
+  if (isLast) {
+    // Save kolom answers
+    state.answers.push([...state.kolomAnswers]);
+    // Move to next kolom
+    state.currentKolom++;
+    if (state.currentKolom < KOLOM_DATA.length) {
+      transition(`Kolom ${ROMAN[state.currentKolom]} akan dimulai...`, () => {
+        goToKolomIntro();
+      });
+    } else {
+      showResults();
+    }
+  } else {
+    state.currentQuestion++;
+    showQuestion();
+  }
+}
+
+function finishExam() {
+  state.answers.push([...state.kolomAnswers]);
+  showResults();
+}
+
+function confirmEarlySubmit() {
+  if (confirm("Apakah Anda yakin ingin mengakhiri simulasi sekarang? Semua soal yang belum dikerjakan akan dianggap salah.")) {
+    // Simpan jawaban dari kolom yang sedang berjalan
+    state.answers.push([...state.kolomAnswers]);
+
+    // Isi kolom berikutnya dengan null agar perhitungan skor tidak error
+    for (let i = state.currentKolom + 1; i < KOLOM_DATA.length; i++) {
+      state.answers.push(new Array(KOLOM_DATA[i].questions.length).fill(null));
+    }
+
+    // Tampilkan hasil
+    showResults();
+  }
+}
+
+// ════════════════════════════════════════════════════
+// RESULTS
+// ════════════════════════════════════════════════════
+function showResults() {
+  let totalCorrect = 0;
+  let totalWrong = 0;
+  const kolomStats = [];
+
+  KOLOM_DATA.forEach((k, ki) => {
+    const kAnswers = state.answers[ki] || [];
+    let kCorrect = 0, kWrong = 0;
+    k.questions.forEach((q, qi) => {
+      const given = kAnswers[qi];
+      if (given === q.key) kCorrect++;
+      else kWrong++;
+    });
+    kolomStats.push({ name: k.name, correct: kCorrect, wrong: kWrong, total: k.questions.length });
+    totalCorrect += kCorrect;
+    totalWrong += kWrong;
+  });
+
+  const total = totalCorrect + totalWrong;
+  const pct = Math.round((totalCorrect / total) * 100);
+
+  document.getElementById('resultsName').textContent = state.participantName;
+  const now = new Date();
+  document.getElementById('resultsDate').textContent = now.toLocaleDateString('id-ID', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  document.getElementById('rCorrect').textContent = totalCorrect;
+  document.getElementById('rWrong').textContent = totalWrong;
+  document.getElementById('rScore').textContent = pct + '%';
+
+  // Performance band
+  let grade, desc, color;
+  if (pct >= 90) { grade = "Sangat Baik"; desc = "Tingkat kecermatan visual sangat tinggi"; color = "var(--sage)"; }
+  else if (pct >= 75) { grade = "Baik"; desc = "Kecermatan di atas rata-rata"; color = "var(--sage-light)"; }
+  else if (pct >= 60) { grade = "Cukup"; desc = "Perlu peningkatan kecepatan dan ketelitian"; color = "var(--gold-dark)"; }
+  else if (pct >= 45) { grade = "Kurang"; desc = "Latihan intensif sangat disarankan"; color = "var(--red)"; }
+  else { grade = "Perlu Bimbingan"; desc = "Fokus pada peningkatan dasar kecermatan"; color = "var(--red)"; }
+
+  document.getElementById('perfGrade').textContent = grade;
+  document.getElementById('perfGrade').style.color = color;
+  document.getElementById('perfDesc').textContent = desc;
+
+  // Kolom breakdown
+  const breakEl = document.getElementById('kolomBreakdown');
+  breakEl.innerHTML = kolomStats.map(s => {
+    const pctK = Math.round((s.correct / s.total) * 100);
+    return `
+      <div class="kolom-row">
+        <span class="kolom-row-name">${s.name}</span>
+        <span class="kolom-row-correct">✓ ${s.correct}</span>
+        <span class="kolom-row-wrong">✗ ${s.wrong}</span>
+        <div class="score-bar-wrap">
+          <div class="score-bar-fill" style="width:${pctK}%"></div>
+        </div>
+        <span class="kolom-row-pct">${pctK}%</span>
+      </div>
+    `;
+  }).join('');
+
+  showScreen('results');
+
+  // Animate bars
+  setTimeout(() => {
+    document.querySelectorAll('.score-bar-fill').forEach((b, i) => {
+      const pctK = Math.round((kolomStats[i].correct / kolomStats[i].total) * 100);
+      b.style.width = pctK + '%';
+    });
+  }, 100);
+}
+
+function restartTest() {
+  state = { participantName: "", currentKolom: 0, currentQuestion: 0, answers: [], kolomAnswers: [] };
+  document.getElementById('participantName').value = '';
+  showScreen('landing');
+}
+
+// Enter key on name field
+document.getElementById('participantName').addEventListener('keydown', e => {
+  if (e.key === 'Enter') startTest();
+});
+</script>
+</body>
+</html>

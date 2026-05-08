@@ -1491,7 +1491,7 @@ function showResults() {
           <div class="pembahasan-item">
             <span class="pb-no">No.${d.no}</span>
             <span class="pb-soal">Soal: ${d.shown.join(' ')}</span>
-            <span class="pb-pilih">Dijawab: <strong>${d.given || '—'}</strong> ${d.givenSymbol}</span>
+            <span class="pb-pilih">${d.given ? `Dijawab: <strong>${d.given}</strong> ${d.givenSymbol}` : `<em>Tidak dijawab</em>`}</span>
             <span class="pb-benar">Seharusnya: <strong>${d.correctKey}</strong> ${d.correctSymbol}</span>
           </div>`).join('')}</div>`;
     return `

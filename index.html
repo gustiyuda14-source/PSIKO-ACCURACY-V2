@@ -589,17 +589,33 @@
   .kolom-row:last-child { border-bottom: none; }
   .kolom-row:nth-child(even) { background: var(--cream); }
 
-  .pembahasan-detail {
-    margin-top: 6px;
-    font-size: 11px;
-    color: var(--red);
-    line-height: 1.5;
-    word-break: break-word;
+  .pembahasan-wrap {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border);
   }
 
-  .pembahasan-detail.semua-benar {
+  .pembahasan-semua-benar {
+    font-size: 11px;
     color: var(--sage);
   }
+
+  .pembahasan-item {
+    display: flex;
+    gap: 8px;
+    font-size: 11px;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--border-light);
+    flex-wrap: wrap;
+    align-items: baseline;
+  }
+
+  .pembahasan-item:last-child { border-bottom: none; }
+
+  .pb-no { color: var(--text-muted); min-width: 38px; font-weight: 600; flex-shrink: 0; }
+  .pb-soal { color: var(--text-secondary); flex: 1; min-width: 120px; }
+  .pb-pilih { color: var(--red); white-space: nowrap; }
+  .pb-benar { color: var(--sage); white-space: nowrap; }
 
   .kolom-row-name { flex: 1; font-weight: 500; color: var(--text-primary); }
   .kolom-row-correct { color: var(--sage); font-weight: 600; margin-right: 8px; }
@@ -1415,13 +1431,24 @@ function showResults() {
   KOLOM_DATA.forEach((k, ki) => {
     const kAnswers = state.answers[ki] || [];
     let kCorrect = 0, kWrong = 0;
-    const wrongNums = [];
+    const wrongDetails = [];
     k.questions.forEach((q, qi) => {
       const given = kAnswers[qi];
-      if (given === q.key) kCorrect++;
-      else { kWrong++; wrongNums.push(qi + 1); }
+      if (given === q.key) {
+        kCorrect++;
+      } else {
+        kWrong++;
+        wrongDetails.push({
+          no: qi + 1,
+          shown: q.shown,
+          given: given,
+          givenSymbol: given ? k.symbols[given] : '—',
+          correctKey: q.key,
+          correctSymbol: k.symbols[q.key]
+        });
+      }
     });
-    kolomStats.push({ name: k.name, correct: kCorrect, wrong: kWrong, total: k.questions.length, wrongNums });
+    kolomStats.push({ name: k.name, correct: kCorrect, wrong: kWrong, total: k.questions.length, wrongDetails });
     totalCorrect += kCorrect;
     totalWrong += kWrong;
   });
@@ -1452,9 +1479,15 @@ function showResults() {
   const breakEl = document.getElementById('kolomBreakdown');
   breakEl.innerHTML = kolomStats.map(s => {
     const pctK = Math.round((s.correct / s.total) * 100);
-    const pembahasan = s.wrongNums.length === 0
-      ? `<div class="pembahasan-detail semua-benar">Semua soal benar</div>`
-      : `<div class="pembahasan-detail">Salah pada no: ${s.wrongNums.join(', ')}</div>`;
+    const pembahasan = s.wrongDetails.length === 0
+      ? `<div class="pembahasan-wrap"><div class="pembahasan-semua-benar">✓ Semua soal dijawab benar</div></div>`
+      : `<div class="pembahasan-wrap">${s.wrongDetails.map(d => `
+          <div class="pembahasan-item">
+            <span class="pb-no">No.${d.no}</span>
+            <span class="pb-soal">Soal: ${d.shown.join(' ')}</span>
+            <span class="pb-pilih">Dijawab: <strong>${d.given || '—'}</strong> ${d.givenSymbol}</span>
+            <span class="pb-benar">Seharusnya: <strong>${d.correctKey}</strong> ${d.correctSymbol}</span>
+          </div>`).join('')}</div>`;
     return `
       <div class="kolom-row">
         <div class="kolom-row-summary">

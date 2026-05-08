@@ -449,7 +449,7 @@
   .answer-btn {
     border: 2px solid var(--border);
     border-radius: 2px;
-    padding: 12px 6px 8px;
+    padding: 14px 6px;
     background: var(--white);
     cursor: pointer;
     text-align: center;
@@ -457,7 +457,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
   }
 
   .answer-btn:hover {
@@ -471,16 +470,13 @@
   }
 
   .answer-btn.selected .ans-letter { color: var(--gold); }
-  .answer-btn.selected .ans-symbol { filter: brightness(10); }
 
   .ans-letter {
-    font-size: 10px;
+    font-size: 16px;
     font-weight: 700;
     letter-spacing: 0.1em;
-    color: var(--text-muted);
+    color: var(--text-secondary);
   }
-
-  .ans-symbol { font-size: 22px; }
 
   /* ── DIVIDER ── */
   .divider {
@@ -578,14 +574,32 @@
 
   .kolom-row {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     padding: 10px 16px;
     border-bottom: 1px solid var(--border-light);
     font-size: 13px;
   }
 
+  .kolom-row-summary {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
   .kolom-row:last-child { border-bottom: none; }
   .kolom-row:nth-child(even) { background: var(--cream); }
+
+  .pembahasan-detail {
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--red);
+    line-height: 1.5;
+    word-break: break-word;
+  }
+
+  .pembahasan-detail.semua-benar {
+    color: var(--sage);
+  }
 
   .kolom-row-name { flex: 1; font-weight: 500; color: var(--text-primary); }
   .kolom-row-correct { color: var(--sage); font-weight: 600; margin-right: 8px; }
@@ -923,7 +937,7 @@ const KOLOM_DATA = [
       {shown:["⚡","❄️","☂️","☁️"],key:"A"},{shown:["☀️","⚡","☁️","☂️"],key:"D"},
       {shown:["❄️","⚡","☂️","☀️"],key:"B"},{shown:["☁️","❄️","⚡","☀️"],key:"C"},
       {shown:["☂️","☀️","☁️","❄️"],key:"E"},{shown:["⚡","☁️","☂️","❄️"],key:"A"},
-      {shown:["☁️","☂️","❄️","⚡"],key:"A"}
+      {shown:["☁️","☂️","❄️","⚡"],key:"A"},{shown:["☀️","☁️","⚡","☂️"],key:"D"}
     ]
   },
   {
@@ -935,11 +949,11 @@ const KOLOM_DATA = [
       {shown:["✈️","⛵","🚗","🚲"],key:"E"},{shown:["🚲","🚀","⛵","✈️"],key:"C"},
       {shown:["🚀","✈️","🚗","⛵"],key:"D"},{shown:["🚗","🚲","🚀","⛵"],key:"A"},
       {shown:["⛵","🚀","🚲","✈️"],key:"C"},{shown:["🚲","⛵","✈️","🚗"],key:"E"},
-      {shown:["🚗","🚲","🚀","✈️"],key:"B"},{shown:["✈️","🚗","⛵","✈️"],key:"D"},
+      {shown:["🚗","🚲","🚀","✈️"],key:"B"},{shown:["✈️","⛵","🚗","🚀"],key:"D"},
       {shown:["🚲","⛵","🚗","✈️"],key:"E"},{shown:["🚀","✈️","🚲","🚗"],key:"B"},
-      {shown:["✈️","🚲","☁️","⛵"],key:"C"},{shown:["✈️","⛵","🚀","🚲"],key:"C"},
-      {shown:["⛵","🚲","✈️","⚡"],key:"C"},{shown:["🚗","🚀","⛵","❄️"],key:"A"},
-      {shown:["✈️","☂️","🚲","❄️"],key:"E"},{shown:["⚡","❄️","✈️","☂️"],key:"B"},
+      {shown:["✈️","🚲","🚀","⛵"],key:"C"},{shown:["✈️","⛵","🚀","🚲"],key:"C"},
+      {shown:["⛵","🚲","✈️","🚀"],key:"C"},{shown:["🚗","🚀","⛵","🚲"],key:"A"},
+      {shown:["✈️","⛵","🚗","🚲"],key:"E"},{shown:["✈️","🚗","🚲","🚀"],key:"B"},
       {shown:["⛵","🚗","🚲","🚀"],key:"A"},{shown:["✈️","🚗","🚲","🚀"],key:"B"},
       {shown:["✈️","⛵","🚲","🚀"],key:"C"},{shown:["✈️","⛵","🚗","🚀"],key:"D"},
       {shown:["✈️","⛵","🚗","🚲"],key:"E"},{shown:["🚲","🚀","⛵","✈️"],key:"C"},
@@ -954,7 +968,7 @@ const KOLOM_DATA = [
       {shown:["⛵","🚗","✈️","🚲"],key:"E"},{shown:["🚀","🚗","⛵","✈️"],key:"B"},
       {shown:["🚲","⛵","🚗","✈️"],key:"E"},{shown:["🚀","🚲","🚗","✈️"],key:"C"},
       {shown:["⛵","🚗","🚲","🚀"],key:"A"},{shown:["✈️","🚗","🚲","🚀"],key:"B"},
-      {shown:["🚲","🚗","⛵","🚀"],key:"A"}
+      {shown:["🚲","🚗","⛵","🚀"],key:"A"},{shown:["✈️","⛵","🚗","🚲"],key:"E"}
     ]
   },
   {
@@ -985,7 +999,7 @@ const KOLOM_DATA = [
       {shown:["✏️","🔑","💡","⚙️"],key:"A"},{shown:["⚙️","💡","✂️","✏️"],key:"D"},
       {shown:["🔑","✂️","✏️","💡"],key:"C"},{shown:["💡","⚙️","✂️","🔑"],key:"B"},
       {shown:["✏️","🔑","⚙️","✂️"],key:"E"},{shown:["⚙️","💡","✂️","🔑"],key:"C"},
-      {shown:["✏️","⚙️","🔑","💡"],key:"A"}
+      {shown:["✏️","⚙️","🔑","💡"],key:"A"},{shown:["✂️","✏️","⚙️","🔑"],key:"E"}
     ]
   },
   {
@@ -1016,7 +1030,7 @@ const KOLOM_DATA = [
       {shown:["🍓","☕","🍕","🍩"],key:"D"},{shown:["🍩","🍕","🍔","🍓"],key:"A"},
       {shown:["☕","🍔","🍕","🍓"],key:"E"},{shown:["🍓","☕","🍔","🍩"],key:"D"},
       {shown:["🍔","🍩","☕","🍓"],key:"C"},{shown:["🍕","🍔","☕","🍩"],key:"E"},
-      {shown:["🍔","🍕","🍩","🍓"],key:"A"}
+      {shown:["🍔","🍕","🍩","🍓"],key:"A"},{shown:["☕","🍔","🍕","🍩"],key:"E"}
     ]
   },
   {
@@ -1047,7 +1061,7 @@ const KOLOM_DATA = [
       {shown:["♥️","♣️","⭐","♦️"],key:"A"},{shown:["♣️","♦️","♥️","⭐"],key:"A"},
       {shown:["♥️","⭐","♠️","♣️"],key:"C"},{shown:["♠️","⭐","♦️","♣️"],key:"B"},
       {shown:["♥️","♦️","⭐","♠️"],key:"D"},{shown:["⭐","♠️","♦️","♥️"],key:"D"},
-      {shown:["♥️","♦️","♣️","⭐"],key:"A"}
+      {shown:["♥️","♦️","♣️","⭐"],key:"A"},{shown:["♠️","♥️","♦️","♣️"],key:"E"}
     ]
   },
   {
@@ -1078,7 +1092,7 @@ const KOLOM_DATA = [
       {shown:["🐱","🐭","🦊","🐶"],key:"E"},{shown:["🐶","🐱","🐻","🦊"],key:"C"},
       {shown:["🐭","🐻","🐶","🐱"],key:"D"},{shown:["🦊","🐶","🐭","🐻"],key:"B"},
       {shown:["🐱","🦊","🐻","🐶"],key:"C"},{shown:["🐻","🐶","🦊","🐭"],key:"B"},
-      {shown:["🐱","🐭","🦊","🐻"],key:"A"}
+      {shown:["🐱","🐭","🦊","🐻"],key:"A"},{shown:["🐶","🐱","🐭","🦊"],key:"E"}
     ]
   },
   {
@@ -1108,7 +1122,7 @@ const KOLOM_DATA = [
       {shown:["😭","😂","😀","😎"],key:"D"},{shown:["😎","😂","😡","😭"],key:"A"},
       {shown:["😀","😡","😭","😎"],key:"B"},{shown:["😂","😭","😎","😀"],key:"D"},
       {shown:["😡","😀","😂","😎"],key:"E"},{shown:["😭","😀","😂","😡"],key:"C"},
-      {shown:["😂","😎","😡","😭"],key:"A"}
+      {shown:["😂","😎","😡","😭"],key:"A"},{shown:["😀","😂","😎","😡"],key:"E"}
     ]
   },
   {
@@ -1137,7 +1151,7 @@ const KOLOM_DATA = [
       {shown:["🎱","⚽","🏈","🏀"],key:"B"},{shown:["⚽","🎱","🎾","🏀"],key:"C"},
       {shown:["🏈","⚽","🏀","🎾"],key:"E"},{shown:["🎱","🏀","⚽","🏈"],key:"D"},
       {shown:["⚽","🏈","🎾","🏀"],key:"E"},{shown:["🏀","🎱","⚽","🏈"],key:"D"},
-      {shown:["🏀","🏈","🎾","🎱"],key:"A"}
+      {shown:["🏀","🏈","🎾","🎱"],key:"A"},{shown:["⚽","🏀","🏈","🎾"],key:"E"}
     ]
   },
   {
@@ -1167,7 +1181,7 @@ const KOLOM_DATA = [
       {shown:["🌸","☘️","🍁","🌵"],key:"B"},{shown:["🌲","🍁","🌵","🌸"],key:"D"},
       {shown:["☘️","🌲","🌸","🌵"],key:"E"},{shown:["🍁","🌸","🌲","☘️"],key:"C"},
       {shown:["🌵","☘️","🌸","🌲"],key:"A"},{shown:["🌲","☘️","🌵","🌸"],key:"D"},
-      {shown:["🌲","🌵","☘️","🍁"],key:"A"}
+      {shown:["🌲","🌵","☘️","🍁"],key:"A"},{shown:["🌸","🌲","🌵","☘️"],key:"E"}
     ]
   },
   {
@@ -1196,7 +1210,7 @@ const KOLOM_DATA = [
       {shown:["📱","⌚","📺","📸"],key:"A"},{shown:["💻","📺","⌚","📱"],key:"D"},
       {shown:["📸","📱","💻","⌚"],key:"E"},{shown:["📺","📱","⌚","💻"],key:"D"},
       {shown:["📸","📺","📱","⌚"],key:"A"},{shown:["⌚","📱","📸","📺"],key:"A"},
-      {shown:["📱","⌚","📸","📺"],key:"A"}
+      {shown:["📱","⌚","📸","📺"],key:"A"},{shown:["💻","📱","⌚","📸"],key:"E"}
     ]
   }
 ];
@@ -1314,7 +1328,6 @@ function showQuestion() {
     <button class="answer-btn ${selected === l ? 'selected' : ''}"
       onclick="selectAnswer('${l}')" id="ans-${l}">
       <span class="ans-letter">${l}</span>
-      <span class="ans-symbol">${k.symbols[l]}</span>
     </button>
   `).join('');
 
@@ -1402,12 +1415,13 @@ function showResults() {
   KOLOM_DATA.forEach((k, ki) => {
     const kAnswers = state.answers[ki] || [];
     let kCorrect = 0, kWrong = 0;
+    const wrongNums = [];
     k.questions.forEach((q, qi) => {
       const given = kAnswers[qi];
       if (given === q.key) kCorrect++;
-      else kWrong++;
+      else { kWrong++; wrongNums.push(qi + 1); }
     });
-    kolomStats.push({ name: k.name, correct: kCorrect, wrong: kWrong, total: k.questions.length });
+    kolomStats.push({ name: k.name, correct: kCorrect, wrong: kWrong, total: k.questions.length, wrongNums });
     totalCorrect += kCorrect;
     totalWrong += kWrong;
   });
@@ -1438,15 +1452,21 @@ function showResults() {
   const breakEl = document.getElementById('kolomBreakdown');
   breakEl.innerHTML = kolomStats.map(s => {
     const pctK = Math.round((s.correct / s.total) * 100);
+    const pembahasan = s.wrongNums.length === 0
+      ? `<div class="pembahasan-detail semua-benar">Semua soal benar</div>`
+      : `<div class="pembahasan-detail">Salah pada no: ${s.wrongNums.join(', ')}</div>`;
     return `
       <div class="kolom-row">
-        <span class="kolom-row-name">${s.name}</span>
-        <span class="kolom-row-correct">✓ ${s.correct}</span>
-        <span class="kolom-row-wrong">✗ ${s.wrong}</span>
-        <div class="score-bar-wrap">
-          <div class="score-bar-fill" style="width:${pctK}%"></div>
+        <div class="kolom-row-summary">
+          <span class="kolom-row-name">${s.name}</span>
+          <span class="kolom-row-correct">✓ ${s.correct}</span>
+          <span class="kolom-row-wrong">✗ ${s.wrong}</span>
+          <div class="score-bar-wrap">
+            <div class="score-bar-fill" style="width:${pctK}%"></div>
+          </div>
+          <span class="kolom-row-pct">${pctK}%</span>
         </div>
-        <span class="kolom-row-pct">${pctK}%</span>
+        ${pembahasan}
       </div>
     `;
   }).join('');

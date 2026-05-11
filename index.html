@@ -589,12 +589,6 @@
   .kolom-row:last-child { border-bottom: none; }
   .kolom-row:nth-child(even) { background: var(--cream); }
 
-  .pembahasan-wrap {
-    margin-top: 8px;
-    padding-top: 8px;
-    border-top: 1px dashed var(--border);
-  }
-
   .pembahasan-semua-benar {
     font-size: 11px;
     color: var(--sage);
@@ -621,6 +615,40 @@
   .kolom-row-correct { color: var(--sage); font-weight: 600; margin-right: 8px; }
   .kolom-row-wrong { color: var(--red); font-weight: 600; margin-right: 8px; }
   .kolom-row-pct { color: var(--text-muted); font-size: 12px; }
+
+  .kolom-row-summary { cursor: pointer; user-select: none; }
+  .kolom-row-summary:hover { background: rgba(27,43,75,0.04); border-radius: 2px; }
+
+  .pembahasan-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-left: 8px;
+    color: var(--text-muted);
+    font-size: 11px;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .pembahasan-toggle.open { transform: rotate(180deg); }
+
+  .pembahasan-wrap {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding-top 0.2s ease, margin-top 0.2s ease;
+  }
+
+  .pembahasan-wrap.open {
+    max-height: 2000px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border);
+  }
 
   .score-bar-wrap {
     height: 4px;
@@ -1483,20 +1511,21 @@ function showResults() {
 
   // Kolom breakdown
   const breakEl = document.getElementById('kolomBreakdown');
-  breakEl.innerHTML = kolomStats.map(s => {
+  breakEl.innerHTML = kolomStats.map((s, idx) => {
     const pctK = Math.round((s.correct / s.total) * 100);
-    const pembahasan = s.wrongDetails.length === 0
-      ? `<div class="pembahasan-wrap"><div class="pembahasan-semua-benar">✓ Semua soal dijawab benar</div></div>`
-      : `<div class="pembahasan-wrap">${s.wrongDetails.map(d => `
+    const hasPembahasan = s.wrongDetails.length > 0;
+    const pembahasanContent = s.wrongDetails.length === 0
+      ? `<div class="pembahasan-semua-benar">✓ Semua soal dijawab benar</div>`
+      : s.wrongDetails.map(d => `
           <div class="pembahasan-item">
             <span class="pb-no">No.${d.no}</span>
             <span class="pb-soal">Soal: ${d.shown.join(' ')}</span>
             <span class="pb-pilih">${d.given ? `Dijawab: <strong>${d.given}</strong> ${d.givenSymbol}` : `<em>Tidak dijawab</em>`}</span>
             <span class="pb-benar">Seharusnya: <strong>${d.correctKey}</strong> ${d.correctSymbol}</span>
-          </div>`).join('')}</div>`;
+          </div>`).join('');
     return `
       <div class="kolom-row">
-        <div class="kolom-row-summary">
+        <div class="kolom-row-summary" onclick="togglePembahasan(${idx})" title="Klik untuk lihat pembahasan">
           <span class="kolom-row-name">${s.name}</span>
           <span class="kolom-row-correct">✓ ${s.correct}</span>
           <span class="kolom-row-wrong">✗ ${s.wrong}</span>
@@ -1504,8 +1533,11 @@ function showResults() {
             <div class="score-bar-fill" style="width:${pctK}%"></div>
           </div>
           <span class="kolom-row-pct">${pctK}%</span>
+          <span class="pembahasan-toggle" id="toggle-${idx}">▼</span>
         </div>
-        ${pembahasan}
+        <div class="pembahasan-wrap" id="pembahasan-${idx}">
+          ${pembahasanContent}
+        </div>
       </div>
     `;
   }).join('');
@@ -1519,6 +1551,14 @@ function showResults() {
       b.style.width = pctK + '%';
     });
   }, 100);
+}
+
+function togglePembahasan(idx) {
+  const wrap = document.getElementById('pembahasan-' + idx);
+  const toggle = document.getElementById('toggle-' + idx);
+  if (!wrap) return;
+  const isOpen = wrap.classList.toggle('open');
+  toggle.classList.toggle('open', isOpen);
 }
 
 function restartTest() {

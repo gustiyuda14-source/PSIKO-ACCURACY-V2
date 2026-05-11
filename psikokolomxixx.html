@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AJIKS AKADEMI — Psiko Kecermatan Kolom XI–XX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#1B2B4B;--navy-light:#243860;--cream:#F5F0E8;--cream-dark:#EDE6D8;
+    --gold:#C9A96E;--gold-light:#DEC090;--gold-dark:#A8854A;
+    --sage:#4A7C59;--sage-light:#6A9E79;
+    --text-primary:#1B2B4B;--text-secondary:#5A6B8A;--text-muted:#8A9BB8;
+    --border:#D8D0C4;--border-light:#EAE4DC;--white:#FFFFFF;--red:#C0392B;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text-primary);min-height:100vh;overflow-x:hidden;}
+  .screen{display:none;min-height:100vh;}
+  .screen.active{display:flex;flex-direction:column;}
+  .topbar{background:var(--navy);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(27,43,75,.3);}
+  .topbar-brand{display:flex;flex-direction:column;}
+  .topbar-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;}
+  .topbar-sub{font-size:10px;font-weight:300;color:rgba(255,255,255,.5);letter-spacing:.12em;text-transform:uppercase;margin-top:2px;}
+  .topbar-participant{font-size:13px;color:rgba(255,255,255,.7);}
+  .topbar-participant span{color:var(--gold-light);font-weight:500;}
+  .progress-ribbon{background:var(--navy-light);height:3px;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:width .4s cubic-bezier(.4,0,.2,1);}
+  .content{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px;}
+  .card{background:var(--white);border:1px solid var(--border);border-radius:4px;box-shadow:0 4px 40px rgba(27,43,75,.08);width:100%;max-width:680px;overflow:hidden;}
+  .card-header{background:var(--navy);padding:28px 36px;border-bottom:2px solid var(--gold);}
+  .card-label{font-size:10px;font-weight:600;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
+  .card-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--white);line-height:1.2;}
+  .card-subtitle{font-size:13px;color:rgba(255,255,255,.55);margin-top:6px;font-style:italic;font-family:'Cormorant Garamond',serif;}
+  .card-body{padding:32px 36px;}
+  .meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px;}
+  .meta-item{border:1px solid var(--border);border-radius:2px;padding:14px 16px;background:var(--cream);}
+  .meta-label{font-size:9px;font-weight:600;letter-spacing:.18em;color:var(--text-muted);text-transform:uppercase;margin-bottom:4px;}
+  .meta-value{font-size:15px;font-weight:600;color:var(--navy);font-family:'Cormorant Garamond',serif;}
+  .form-group{margin-bottom:20px;}
+  .form-label{display:block;font-size:10px;font-weight:600;letter-spacing:.2em;color:var(--text-secondary);text-transform:uppercase;margin-bottom:8px;}
+  .form-input{width:100%;padding:13px 16px;border:1px solid var(--border);border-radius:2px;background:var(--cream);font-family:'Inter',sans-serif;font-size:15px;color:var(--text-primary);outline:none;transition:border-color .2s,box-shadow .2s;}
+  .form-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,.15);background:var(--white);}
+  .form-input::placeholder{color:var(--text-muted);}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;transition:all .2s;}
+  .btn-primary{background:var(--navy);color:var(--gold);width:100%;}
+  .btn-primary:hover{background:var(--navy-light);transform:translateY(-1px);box-shadow:0 6px 20px rgba(27,43,75,.25);}
+  .btn-secondary{background:transparent;color:var(--navy);border:1.5px solid var(--navy);width:100%;}
+  .btn-secondary:hover{background:var(--navy);color:var(--gold);}
+  .btn-gold{background:var(--gold);color:var(--navy);width:100%;}
+  .btn-gold:hover{background:var(--gold-dark);transform:translateY(-1px);}
+  .btn-arrow::after{content:' →';}
+  .key-table-wrap{margin-bottom:24px;}
+  .key-table-title{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;}
+  .key-table{width:100%;border-collapse:collapse;border:1px solid var(--border);}
+  .key-table th,.key-table td{padding:12px;text-align:center;border:1px solid var(--border);}
+  .key-table thead th{background:var(--navy);color:var(--gold);font-size:12px;font-weight:600;letter-spacing:.1em;}
+  .key-table tbody td{background:var(--cream);font-size:22px;}
+  .key-table tbody tr:hover td{background:var(--cream-dark);}
+  .kolom-instruction{font-size:13px;color:var(--text-secondary);line-height:1.6;margin-top:12px;padding:12px 16px;background:var(--cream);border-left:3px solid var(--gold);}
+  .q-header{display:flex;align-items:flex-start;justify-content:space-between;padding:16px 36px;background:var(--cream);border-bottom:1px solid var(--border);}
+  .q-meta{display:flex;flex-direction:column;gap:2px;}
+  .q-progress-text{font-size:11px;font-weight:600;letter-spacing:.12em;color:var(--text-muted);text-transform:uppercase;}
+  .q-num{font-size:22px;font-family:'Cormorant Garamond',serif;font-weight:600;color:var(--navy);}
+  .q-kolom-badge{font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--gold-dark);background:rgba(201,169,110,.12);padding:4px 10px;border:1px solid rgba(201,169,110,.3);border-radius:2px;text-transform:uppercase;}
+  .q-progressbar{height:2px;background:var(--border);}
+  .q-progressbar-fill{height:100%;background:var(--gold);transition:width .3s;}
+  .q-body{padding:28px 36px;}
+  .key-compact{width:100%;border-collapse:collapse;margin-bottom:20px;border:1px solid var(--border);}
+  .key-compact th{background:var(--navy);color:var(--gold);font-size:11px;font-weight:600;padding:8px 10px;text-align:center;border:1px solid rgba(255,255,255,.1);}
+  .key-compact td{background:var(--cream);font-size:20px;padding:10px;text-align:center;border:1px solid var(--border);}
+  .key-section-label{font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;}
+  .soal-section{margin-bottom:24px;}
+  .soal-symbols{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px;}
+  .soal-cell{background:var(--white);border:1.5px solid var(--border);border-radius:2px;padding:18px 10px;text-align:center;font-size:28px;}
+  .answer-section{margin-bottom:24px;}
+  .answer-options{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px;}
+  .answer-btn{border:2px solid var(--border);border-radius:2px;padding:14px 6px;background:var(--white);cursor:pointer;text-align:center;transition:all .15s;display:flex;flex-direction:column;align-items:center;}
+  .answer-btn:hover{border-color:var(--gold);background:rgba(201,169,110,.06);}
+  .answer-btn.selected{border-color:var(--navy);background:var(--navy);}
+  .answer-btn.selected .ans-letter{color:var(--gold);}
+  .ans-letter{font-size:16px;font-weight:700;letter-spacing:.1em;color:var(--text-secondary);}
+  .divider{height:1px;background:var(--border);margin:24px 0;}
+  .results-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:28px;}
+  .result-stat{border:1px solid var(--border);border-radius:2px;padding:20px 16px;text-align:center;background:var(--cream);}
+  .result-stat-value{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;line-height:1;margin-bottom:4px;}
+  .result-stat-label{font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);}
+  .stat-correct{color:var(--sage);}
+  .stat-wrong{color:var(--red);}
+  .stat-total{color:var(--navy);}
+  .kolom-breakdown{border:1px solid var(--border);border-radius:2px;overflow:hidden;margin-bottom:28px;}
+  .kolom-breakdown-header{background:var(--navy);color:var(--gold);font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;padding:12px 16px;}
+  .kolom-row{display:flex;flex-direction:column;padding:10px 16px;border-bottom:1px solid var(--border-light);font-size:13px;}
+  .kolom-row-summary{display:flex;align-items:center;width:100%;cursor:pointer;user-select:none;}
+  .kolom-row-summary:hover{background:rgba(27,43,75,.04);border-radius:2px;}
+  .kolom-row:last-child{border-bottom:none;}
+  .kolom-row:nth-child(even){background:var(--cream);}
+  .pembahasan-toggle{display:flex;align-items:center;justify-content:center;width:20px;height:20px;margin-left:8px;color:var(--text-muted);font-size:11px;flex-shrink:0;transition:transform .2s ease;}
+  .pembahasan-toggle.open{transform:rotate(180deg);}
+  .pembahasan-wrap{margin-top:0;padding-top:0;border-top:none;max-height:0;overflow:hidden;transition:max-height .3s ease,padding-top .2s ease,margin-top .2s ease;}
+  .pembahasan-wrap.open{max-height:2000px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);}
+  .pembahasan-semua-benar{font-size:11px;color:var(--sage);}
+  .pembahasan-item{display:flex;gap:8px;font-size:11px;padding:4px 0;border-bottom:1px solid var(--border-light);flex-wrap:wrap;align-items:baseline;}
+  .pembahasan-item:last-child{border-bottom:none;}
+  .pb-no{color:var(--text-muted);min-width:38px;font-weight:600;flex-shrink:0;}
+  .pb-soal{color:var(--text-secondary);flex:1;min-width:120px;}
+  .pb-pilih{color:var(--red);white-space:nowrap;}
+  .pb-benar{color:var(--sage);white-space:nowrap;}
+  .kolom-row-name{flex:1;font-weight:500;color:var(--text-primary);}
+  .kolom-row-correct{color:var(--sage);font-weight:600;margin-right:8px;}
+  .kolom-row-wrong{color:var(--red);font-weight:600;margin-right:8px;}
+  .kolom-row-pct{color:var(--text-muted);font-size:12px;}
+  .score-bar-wrap{height:4px;background:var(--border);border-radius:2px;flex:1;margin:0 12px;}
+  .score-bar-fill{height:100%;background:var(--sage);border-radius:2px;transition:width 1s ease;}
+  .perf-band{text-align:center;padding:20px;border:1px solid var(--border);border-radius:2px;margin-bottom:20px;}
+  .perf-label{font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
+  .perf-grade{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;margin-bottom:2px;}
+  .perf-desc{font-size:12px;color:var(--text-secondary);font-style:italic;}
+  .transition-overlay{position:fixed;inset:0;background:var(--navy);z-index:999;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
+  .transition-overlay.active{opacity:1;pointer-events:all;}
+  .transition-text{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);letter-spacing:.1em;}
+  @media(max-width:600px){
+    .topbar{padding:12px 20px;}
+    .card-header,.card-body,.q-body{padding:20px;}
+    .q-header{padding:14px 20px;}
+    .meta-grid{grid-template-columns:1fr;}
+    .results-grid{grid-template-columns:1fr;}
+  }
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .animate-in{animation:fadeUp .4s ease both;}
+</style>
+</head>
+<body>
+
+<div class="transition-overlay" id="transOverlay">
+  <div class="transition-text" id="transText">Memuat kolom berikutnya...</div>
+</div>
+
+<!-- LANDING -->
+<div class="screen active" id="screen-landing">
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-name">Ajiks Akademi</div>
+      <div class="topbar-sub">Capra IPDN · Sultra</div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="card animate-in">
+      <div class="card-header">
+        <div class="card-label">Psiko Test · Kecermatan</div>
+        <div class="card-title">Simulasi Try Out<br>Kecermatan</div>
+        <div class="card-subtitle">Kolom XI – XX · Uji kecepatan persepsi dan ketelitian visual simbol</div>
+      </div>
+      <div class="card-body">
+        <div class="meta-grid">
+          <div class="meta-item"><div class="meta-label">Tipe</div><div class="meta-value">Simbol Hilang</div></div>
+          <div class="meta-item"><div class="meta-label">Jumlah Kolom</div><div class="meta-value">10 Kolom</div></div>
+          <div class="meta-item"><div class="meta-label">Total Soal</div><div class="meta-value">500 Butir</div></div>
+          <div class="meta-item"><div class="meta-label">Mode</div><div class="meta-value">Latihan Bebas</div></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="participantName">Nama Peserta</label>
+          <input type="text" id="participantName" class="form-input" placeholder="Tulis nama lengkap...">
+        </div>
+        <button class="btn btn-primary btn-arrow" onclick="startTest()">Mulai Simulasi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- KOLOM INTRO -->
+<div class="screen" id="screen-kolom-intro">
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-name">Ajiks Akademi</div>
+      <div class="topbar-sub">Psiko Kecermatan</div>
+    </div>
+    <div class="topbar-participant">Peserta: <span id="introParticipantName">—</span></div>
+  </div>
+  <div class="progress-ribbon"><div class="progress-fill" id="introProgress" style="width:0%"></div></div>
+  <div class="content">
+    <div class="card animate-in">
+      <div class="card-header">
+        <div class="card-label" id="introKolomLabel">Kolom XI dari XX</div>
+        <div class="card-title" id="introKolomTitle">Kolom XI</div>
+        <div class="card-subtitle">Pelajari tabel kunci — akan selalu tampil saat tes</div>
+      </div>
+      <div class="card-body">
+        <div class="key-table-wrap">
+          <div class="key-table-title">Tabel Kunci Jawaban</div>
+          <table class="key-table">
+            <thead><tr id="introKeyHead"></tr></thead>
+            <tbody><tr id="introKeyBody"></tr></tbody>
+          </table>
+        </div>
+        <div class="kolom-instruction">
+          <strong>Total: <span id="introQCount">50</span> butir</strong> per kolom<br>
+          Pilih simbol yang <span style="color:var(--gold-dark);font-weight:600">tidak ada</span> pada baris soal. Kerjakan semua soal lalu lanjut ke kolom berikutnya.
+        </div>
+        <div style="margin-top:24px;">
+          <button class="btn btn-gold btn-arrow" onclick="startKolom()">Mulai Kolom</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUESTION -->
+<div class="screen" id="screen-question">
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-name">Ajiks Akademi</div>
+      <div class="topbar-sub">Psiko Kecermatan</div>
+    </div>
+    <div class="topbar-participant" id="qParticipantName"></div>
+  </div>
+  <div class="progress-ribbon"><div class="progress-fill" id="globalProgress" style="width:0%"></div></div>
+  <div class="content" style="padding:20px;">
+    <div class="card" style="max-width:720px;">
+      <div class="q-header">
+        <div class="q-meta">
+          <div class="q-progress-text" id="qProgressText">Soal 1/50</div>
+          <div class="q-num" id="qNumDisplay">Soal 1</div>
+        </div>
+        <div class="q-kolom-badge" id="qKolomBadge">Kolom XI (1/10)</div>
+      </div>
+      <div class="q-progressbar"><div class="q-progressbar-fill" id="qProgressBar" style="width:0%"></div></div>
+      <div class="q-body">
+        <div style="margin-bottom:20px;">
+          <div class="key-section-label">Petunjuk Soal</div>
+          <table class="key-compact">
+            <thead><tr id="qKeyHead"></tr></thead>
+            <tbody><tr id="qKeyBody"></tr></tbody>
+          </table>
+        </div>
+        <div class="soal-section">
+          <div class="key-section-label">Soal</div>
+          <div class="soal-symbols" id="soalSymbols"></div>
+        </div>
+        <div class="answer-section">
+          <div class="key-section-label">Jawaban Anda</div>
+          <div class="answer-options" id="answerOptions"></div>
+        </div>
+        <div class="divider"></div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;gap:12px;">
+            <button class="btn btn-gold btn-arrow" id="nextBtn" onclick="nextQuestion()" style="flex:1">Berikutnya</button>
+            <button class="btn btn-secondary" id="finishBtn" onclick="finishExam()" style="flex:1;display:none">⬛ Selesai Ujian</button>
+          </div>
+          <button class="btn btn-secondary" id="earlySubmitBtn" onclick="confirmEarlySubmit()" style="border-color:var(--red);color:var(--red);font-size:10px;padding:10px;">
+            Selesaikan Ujian Sekarang & Lihat Hasil
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div class="screen" id="screen-results">
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-name">Ajiks Akademi</div>
+      <div class="topbar-sub">Psiko Kecermatan</div>
+    </div>
+  </div>
+  <div class="content" style="padding:20px;">
+    <div class="card" style="max-width:720px;">
+      <div class="card-header">
+        <div class="card-label">Hasil Simulasi Selesai</div>
+        <div class="card-title" id="resultsName">—</div>
+        <div class="card-subtitle" id="resultsDate"></div>
+      </div>
+      <div class="card-body">
+        <div class="results-grid">
+          <div class="result-stat"><div class="result-stat-value stat-correct" id="rCorrect">—</div><div class="result-stat-label">Benar</div></div>
+          <div class="result-stat"><div class="result-stat-value stat-wrong" id="rWrong">—</div><div class="result-stat-label">Salah</div></div>
+          <div class="result-stat"><div class="result-stat-value stat-total" id="rScore">—</div><div class="result-stat-label">Skor %</div></div>
+        </div>
+        <div class="perf-band">
+          <div class="perf-label">Kategori Performa</div>
+          <div class="perf-grade" id="perfGrade">—</div>
+          <div class="perf-desc" id="perfDesc">—</div>
+        </div>
+        <div class="kolom-breakdown">
+          <div class="kolom-breakdown-header">Rincian per Kolom</div>
+          <div id="kolomBreakdown"></div>
+        </div>
+        <div style="display:flex;gap:12px;">
+          <button class="btn btn-primary" onclick="restartTest()" style="flex:1">↺ Ulangi Simulasi</button>
+          <button class="btn btn-secondary" onclick="window.print()" style="flex:1">⎙ Cetak Hasil</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const KOLOM_DATA = [
+  {
+    name: "Kolom XI", roman: "XI",
+    symbols: { A:"🍎", B:"🍊", C:"🍋", D:"🍇", E:"🍓" },
+    questions: [
+      {shown:["🍓","🍎","🍋","🍇"],key:"B"},
+      {shown:["🍋","🍎","🍊","🍇"],key:"E"},
+      {shown:["🍋","🍓","🍎","🍊"],key:"D"},
+      {shown:["🍎","🍓","🍊","🍇"],key:"C"},
+      {shown:["🍊","🍋","🍇","🍓"],key:"A"},
+      {shown:["🍋","🍇","🍎","🍊"],key:"E"},
+      {shown:["🍋","🍇","🍎","🍓"],key:"B"},
+      {shown:["🍓","🍎","🍇","🍊"],key:"C"},
+      {shown:["🍎","🍓","🍋","🍊"],key:"D"},
+      {shown:["🍊","🍋","🍓","🍇"],key:"A"},
+      {shown:["🍎","🍓","🍇","🍊"],key:"C"},
+      {shown:["🍎","🍊","🍋","🍇"],key:"E"},
+      {shown:["🍓","🍊","🍋","🍎"],key:"D"},
+      {shown:["🍋","🍎","🍇","🍓"],key:"B"},
+      {shown:["🍊","🍋","🍇","🍓"],key:"A"},
+      {shown:["🍊","🍋","🍎","🍓"],key:"D"},
+      {shown:["🍊","🍇","🍎","🍋"],key:"E"},
+      {shown:["🍓","🍎","🍇","🍊"],key:"C"},
+      {shown:["🍋","🍇","🍎","🍓"],key:"B"},
+      {shown:["🍊","🍇","🍋","🍓"],key:"A"},
+      {shown:["🍋","🍓","🍎","🍊"],key:"D"},
+      {shown:["🍎","🍋","🍓","🍇"],key:"B"},
+      {shown:["🍇","🍎","🍋","🍊"],key:"E"},
+      {shown:["🍎","🍊","🍓","🍇"],key:"C"},
+      {shown:["🍋","🍊","🍓","🍇"],key:"A"},
+      {shown:["🍋","🍓","🍊","🍇"],key:"A"},
+      {shown:["🍊","🍎","🍋","🍓"],key:"D"},
+      {shown:["🍊","🍓","🍇","🍎"],key:"C"},
+      {shown:["🍊","🍎","🍋","🍇"],key:"E"},
+      {shown:["🍇","🍎","🍓","🍋"],key:"B"},
+      {shown:["🍊","🍇","🍎","🍓"],key:"C"},
+      {shown:["🍓","🍊","🍇","🍋"],key:"A"},
+      {shown:["🍊","🍓","🍋","🍎"],key:"D"},
+      {shown:["🍎","🍇","🍊","🍋"],key:"E"},
+      {shown:["🍋","🍎","🍇","🍓"],key:"B"},
+      {shown:["🍓","🍋","🍇","🍎"],key:"B"},
+      {shown:["🍋","🍊","🍎","🍓"],key:"D"},
+      {shown:["🍇","🍎","🍊","🍋"],key:"E"},
+      {shown:["🍎","🍊","🍓","🍇"],key:"C"},
+      {shown:["🍇","🍓","🍊","🍋"],key:"A"},
+      {shown:["🍎","🍓","🍊","🍇"],key:"C"},
+      {shown:["🍎","🍋","🍓","🍇"],key:"B"},
+      {shown:["🍋","🍊","🍓","🍇"],key:"A"},
+      {shown:["🍓","🍎","🍋","🍊"],key:"D"},
+      {shown:["🍋","🍊","🍎","🍇"],key:"E"},
+      {shown:["🍎","🍇","🍊","🍓"],key:"C"},
+      {shown:["🍎","🍋","🍇","🍓"],key:"B"},
+      {shown:["🍋","🍎","🍊","🍇"],key:"E"},
+      {shown:["🍋","🍇","🍓","🍊"],key:"A"},
+      {shown:["🍎","🍋","🍊","🍓"],key:"D"}
+    ]
+  },
+  {
+    name: "Kolom XII", roman: "XII",
+    symbols: { A:"⚽", B:"🏀", C:"🏈", D:"🎾", E:"🏐" },
+    questions: [
+      {shown:["🏀","🎾","⚽","🏐"],key:"C"},
+      {shown:["🏈","🎾","⚽","🏀"],key:"E"},
+      {shown:["🏐","🎾","⚽","🏈"],key:"B"},
+      {shown:["🏐","🎾","🏈","🏀"],key:"A"},
+      {shown:["🏀","🏈","⚽","🏐"],key:"D"},
+      {shown:["🏈","🎾","⚽","🏀"],key:"E"},
+      {shown:["⚽","🏐","🏈","🏀"],key:"D"},
+      {shown:["🏐","🏀","⚽","🎾"],key:"C"},
+      {shown:["🎾","🏐","⚽","🏈"],key:"B"},
+      {shown:["🎾","🏐","🏀","🏈"],key:"A"},
+      {shown:["🏀","🏈","🏐","🎾"],key:"A"},
+      {shown:["🏈","🏐","⚽","🏀"],key:"D"},
+      {shown:["🏀","⚽","🏐","🎾"],key:"C"},
+      {shown:["🏐","🎾","🏈","⚽"],key:"B"},
+      {shown:["⚽","🏀","🏈","🎾"],key:"E"},
+      {shown:["⚽","🏀","🏐","🏈"],key:"D"},
+      {shown:["🎾","⚽","🏀","🏐"],key:"C"},
+      {shown:["🏈","🏀","🎾","🏐"],key:"A"},
+      {shown:["🏐","🏈","🎾","⚽"],key:"B"},
+      {shown:["🏀","⚽","🏈","🎾"],key:"E"},
+      {shown:["🏀","⚽","🏈","🏐"],key:"D"},
+      {shown:["🏈","🏀","🏐","🎾"],key:"A"},
+      {shown:["🎾","⚽","🏈","🏀"],key:"E"},
+      {shown:["🏈","🎾","⚽","🏐"],key:"B"},
+      {shown:["🏐","🎾","🏀","⚽"],key:"C"},
+      {shown:["🏐","🏀","🏈","⚽"],key:"D"},
+      {shown:["🎾","🏀","🏐","🏈"],key:"A"},
+      {shown:["🏐","⚽","🎾","🏀"],key:"C"},
+      {shown:["🎾","⚽","🏈","🏐"],key:"B"},
+      {shown:["🏈","🏀","🎾","⚽"],key:"E"},
+      {shown:["🏀","🎾","🏈","⚽"],key:"E"},
+      {shown:["⚽","🏈","🏐","🏀"],key:"D"},
+      {shown:["⚽","🎾","🏐","🏈"],key:"B"},
+      {shown:["⚽","🏀","🎾","🏐"],key:"C"},
+      {shown:["🎾","🏈","🏐","🏀"],key:"A"},
+      {shown:["🎾","🏀","🏈","🏐"],key:"A"},
+      {shown:["🏀","🏈","⚽","🎾"],key:"E"},
+      {shown:["🏐","🎾","⚽","🏈"],key:"B"},
+      {shown:["🏐","⚽","🏀","🏈"],key:"D"},
+      {shown:["🎾","🏀","🏐","⚽"],key:"C"},
+      {shown:["🏈","🏀","🎾","⚽"],key:"E"},
+      {shown:["🏈","🎾","⚽","🏐"],key:"B"},
+      {shown:["🎾","🏀","⚽","🏐"],key:"C"},
+      {shown:["🏐","🎾","🏈","🏀"],key:"A"},
+      {shown:["🏐","🏀","⚽","🏈"],key:"D"},
+      {shown:["🏐","🏀","🎾","⚽"],key:"C"},
+      {shown:["⚽","🏐","🏀","🏈"],key:"D"},
+      {shown:["⚽","🏀","🏈","🎾"],key:"E"},
+      {shown:["🏈","🏐","⚽","🎾"],key:"B"},
+      {shown:["🎾","🏀","🏈","🏐"],key:"A"}
+    ]
+  },
+  {
+    name: "Kolom XIII", roman: "XIII",
+    symbols: { A:"🌋", B:"🏔️", C:"🏝️", D:"🌊", E:"🌵" },
+    questions: [
+      {shown:["🌊","🌵","🏔️","🏝️"],key:"A"},
+      {shown:["🏔️","🌋","🌵","🌊"],key:"C"},
+      {shown:["🌋","🌊","🏔️","🏝️"],key:"E"},
+      {shown:["🌋","🌊","🌵","🏝️"],key:"B"},
+      {shown:["🏔️","🌋","🏝️","🌵"],key:"D"},
+      {shown:["🏔️","🌊","🏝️","🌋"],key:"E"},
+      {shown:["🏔️","🌊","🌵","🌋"],key:"C"},
+      {shown:["🏝️","🌵","🏔️","🌊"],key:"A"},
+      {shown:["🌋","🏔️","🏝️","🌵"],key:"D"},
+      {shown:["🌊","🌵","🏝️","🌋"],key:"B"},
+      {shown:["🏝️","🏔️","🌵","🌊"],key:"A"},
+      {shown:["🌵","🌋","🌊","🏝️"],key:"B"},
+      {shown:["🌋","🏔️","🏝️","🌊"],key:"E"},
+      {shown:["🌋","🌵","🌊","🏔️"],key:"C"},
+      {shown:["🌋","🏝️","🏔️","🌵"],key:"D"},
+      {shown:["🌵","🌋","🏝️","🏔️"],key:"D"},
+      {shown:["🌋","🏝️","🌵","🌊"],key:"B"},
+      {shown:["🏝️","🌵","🏔️","🌊"],key:"A"},
+      {shown:["🏔️","🌋","🌵","🌊"],key:"C"},
+      {shown:["🌊","🏝️","🌋","🏔️"],key:"E"},
+      {shown:["🌋","🌵","🏔️","🏝️"],key:"D"},
+      {shown:["🌵","🌋","🌊","🏔️"],key:"C"},
+      {shown:["🏝️","🌊","🌵","🌋"],key:"B"},
+      {shown:["🌋","🏝️","🌊","🏔️"],key:"E"},
+      {shown:["🌵","🏔️","🏝️","🌊"],key:"A"},
+      {shown:["🏝️","🌊","🏔️","🌋"],key:"E"},
+      {shown:["🌵","🌋","🌊","🏔️"],key:"C"},
+      {shown:["🌊","🏔️","🌵","🏝️"],key:"A"},
+      {shown:["🏝️","🌵","🌊","🌋"],key:"B"},
+      {shown:["🏝️","🌵","🏔️","🌋"],key:"D"},
+      {shown:["🌋","🏔️","🏝️","🌵"],key:"D"},
+      {shown:["🌊","🌵","🏝️","🏔️"],key:"A"},
+      {shown:["🌋","🌊","🏝️","🌵"],key:"B"},
+      {shown:["🌵","🌊","🏔️","🌋"],key:"C"},
+      {shown:["🌊","🏔️","🌋","🏝️"],key:"E"},
+      {shown:["🏝️","🌊","🏔️","🌵"],key:"A"},
+      {shown:["🌵","🏝️","🌊","🌋"],key:"B"},
+      {shown:["🏔️","🌊","🌋","🏝️"],key:"E"},
+      {shown:["🌵","🌋","🏔️","🌊"],key:"C"},
+      {shown:["🌵","🏔️","🌋","🏝️"],key:"D"},
+      {shown:["🌵","🏔️","🌋","🏝️"],key:"D"},
+      {shown:["🌋","🌵","🌊","🏔️"],key:"C"},
+      {shown:["🌋","🌵","🌊","🏝️"],key:"B"},
+      {shown:["🌊","🏔️","🌵","🏝️"],key:"A"},
+      {shown:["🏔️","🌊","🌋","🏝️"],key:"E"},
+      {shown:["🌋","🏔️","🌊","🏝️"],key:"E"},
+      {shown:["🌋","🏔️","🌵","🌊"],key:"C"},
+      {shown:["🌋","🌊","🌵","🏝️"],key:"B"},
+      {shown:["🏔️","🏝️","🌋","🌵"],key:"D"},
+      {shown:["🏔️","🏝️","🌵","🌊"],key:"A"}
+    ]
+  },
+  {
+    name: "Kolom XIV", roman: "XIV",
+    symbols: { A:"💰", B:"💵", C:"💳", D:"📊", E:"💹" },
+    questions: [
+      {shown:["💵","📊","💳","💹"],key:"A"},
+      {shown:["💳","💵","💰","📊"],key:"E"},
+      {shown:["💰","💹","📊","💳"],key:"B"},
+      {shown:["💵","💹","📊","💰"],key:"C"},
+      {shown:["💵","💹","💳","💰"],key:"D"},
+      {shown:["💳","💰","📊","💹"],key:"B"},
+      {shown:["💳","💹","💵","📊"],key:"A"},
+      {shown:["💰","💵","📊","💳"],key:"E"},
+      {shown:["💹","💵","💰","📊"],key:"C"},
+      {shown:["💹","💰","💳","💵"],key:"D"},
+      {shown:["💳","💰","💵","📊"],key:"E"},
+      {shown:["💵","💰","💹","📊"],key:"C"},
+      {shown:["💰","💵","💳","💹"],key:"D"},
+      {shown:["💳","💹","📊","💰"],key:"B"},
+      {shown:["💳","📊","💵","💹"],key:"A"},
+      {shown:["💵","💰","💹","📊"],key:"C"},
+      {shown:["💳","📊","💹","💰"],key:"B"},
+      {shown:["💰","💵","💳","💹"],key:"D"},
+      {shown:["💹","💵","📊","💳"],key:"A"},
+      {shown:["💰","💵","📊","💳"],key:"E"},
+      {shown:["💰","📊","💳","💹"],key:"B"},
+      {shown:["💳","📊","💵","💰"],key:"E"},
+      {shown:["💹","📊","💵","💰"],key:"C"},
+      {shown:["📊","💳","💹","💵"],key:"A"},
+      {shown:["💹","💵","💳","💰"],key:"D"},
+      {shown:["💳","📊","💵","💹"],key:"A"},
+      {shown:["💳","💹","💵","💰"],key:"D"},
+      {shown:["💵","💰","📊","💹"],key:"C"},
+      {shown:["💵","📊","💳","💰"],key:"E"},
+      {shown:["💳","📊","💹","💰"],key:"B"},
+      {shown:["💳","💹","💵","📊"],key:"A"},
+      {shown:["💰","💳","💵","📊"],key:"E"},
+      {shown:["💰","💵","💹","💳"],key:"D"},
+      {shown:["💳","💹","📊","💰"],key:"B"},
+      {shown:["💵","📊","💹","💰"],key:"C"},
+      {shown:["💵","💰","📊","💹"],key:"C"},
+      {shown:["💰","📊","💵","💳"],key:"E"},
+      {shown:["📊","💳","💹","💰"],key:"B"},
+      {shown:["💹","💳","💰","💵"],key:"D"},
+      {shown:["💵","💳","📊","💹"],key:"A"},
+      {shown:["💹","💰","💳","💵"],key:"D"},
+      {shown:["💰","💹","💵","📊"],key:"C"},
+      {shown:["💰","💵","📊","💳"],key:"E"},
+      {shown:["💵","📊","💳","💹"],key:"A"},
+      {shown:["💳","📊","💹","💰"],key:"B"},
+      {shown:["💵","💹","📊","💳"],key:"A"},
+      {shown:["💰","📊","💵","💹"],key:"C"},
+      {shown:["💹","📊","💳","💰"],key:"B"},
+      {shown:["💰","💳","💵","💹"],key:"D"},
+      {shown:["💰","💵","💳","📊"],key:"E"}
+    ]
+  },
+  {
+    name: "Kolom XV", roman: "XV",
+    symbols: { A:"🎸", B:"🎺", C:"🎻", D:"🥁", E:"🎹" },
+    questions: [
+      {shown:["🎻","🎺","🎸","🎹"],key:"D"},
+      {shown:["🎹","🎻","🥁","🎸"],key:"B"},
+      {shown:["🎺","🥁","🎸","🎻"],key:"E"},
+      {shown:["🎺","🥁","🎸","🎹"],key:"C"},
+      {shown:["🎺","🎻","🥁","🎹"],key:"A"},
+      {shown:["🎹","🎸","🎺","🎻"],key:"D"},
+      {shown:["🥁","🎻","🎸","🎹"],key:"B"},
+      {shown:["🎸","🥁","🎺","🎹"],key:"C"},
+      {shown:["🥁","🎺","🎸","🎻"],key:"E"},
+      {shown:["🎹","🎻","🥁","🎺"],key:"A"},
+      {shown:["🎺","🎻","🥁","🎹"],key:"A"},
+      {shown:["🥁","🎸","🎺","🎹"],key:"C"},
+      {shown:["🎺","🥁","🎻","🎸"],key:"E"},
+      {shown:["🎻","🎸","🎺","🎹"],key:"D"},
+      {shown:["🎸","🎻","🥁","🎹"],key:"B"},
+      {shown:["🎻","🎺","🎸","🎹"],key:"D"},
+      {shown:["🎺","🎸","🎹","🥁"],key:"C"},
+      {shown:["🎺","🎻","🎹","🥁"],key:"A"},
+      {shown:["🎹","🥁","🎸","🎻"],key:"B"},
+      {shown:["🥁","🎻","🎸","🎺"],key:"E"},
+      {shown:["🎸","🎹","🎺","🎻"],key:"D"},
+      {shown:["🥁","🎺","🎸","🎻"],key:"E"},
+      {shown:["🥁","🎻","🎹","🎸"],key:"B"},
+      {shown:["🎹","🥁","🎻","🎺"],key:"A"},
+      {shown:["🎸","🎺","🎹","🥁"],key:"C"},
+      {shown:["🎸","🎺","🎻","🎹"],key:"D"},
+      {shown:["🎺","🎸","🎹","🥁"],key:"C"},
+      {shown:["🎸","🥁","🎹","🎻"],key:"B"},
+      {shown:["🥁","🎻","🎸","🎺"],key:"E"},
+      {shown:["🎻","🥁","🎹","🎺"],key:"A"},
+      {shown:["🎺","🎻","🎸","🥁"],key:"E"},
+      {shown:["🎹","🎻","🎸","🎺"],key:"D"},
+      {shown:["🎸","🎹","🎻","🥁"],key:"B"},
+      {shown:["🎺","🎹","🎻","🥁"],key:"A"},
+      {shown:["🎸","🎺","🥁","🎹"],key:"C"},
+      {shown:["🥁","🎸","🎻","🎺"],key:"E"},
+      {shown:["🎺","🎻","🥁","🎹"],key:"A"},
+      {shown:["🎻","🎹","🎸","🥁"],key:"B"},
+      {shown:["🥁","🎺","🎸","🎹"],key:"C"},
+      {shown:["🎸","🎹","🎺","🎻"],key:"D"},
+      {shown:["🎺","🎸","🎹","🥁"],key:"C"},
+      {shown:["🎻","🥁","🎸","🎺"],key:"E"},
+      {shown:["🥁","🎺","🎹","🎻"],key:"A"},
+      {shown:["🎺","🎸","🎹","🎻"],key:"D"},
+      {shown:["🎹","🎸","🥁","🎻"],key:"B"},
+      {shown:["🎸","🎺","🎻","🥁"],key:"E"},
+      {shown:["🥁","🎹","🎺","🎸"],key:"C"},
+      {shown:["🥁","🎹","🎸","🎻"],key:"B"},
+      {shown:["🎹","🥁","🎺","🎻"],key:"A"},
+      {shown:["🎻","🎸","🎺","🎹"],key:"D"}
+    ]
+  },
+  {
+    name: "Kolom XVI", roman: "XVI",
+    symbols: { A:"🩺", B:"🚒", C:"🚓", D:"🍳", E:"🔬" },
+    questions: [
+      {shown:["🚓","🍳","🔬","🩺"],key:"B"},
+      {shown:["🚒","🍳","🚓","🩺"],key:"E"},
+      {shown:["🩺","🚒","🚓","🔬"],key:"D"},
+      {shown:["🚒","🔬","🍳","🚓"],key:"A"},
+      {shown:["🍳","🚒","🩺","🔬"],key:"C"},
+      {shown:["🍳","🔬","🩺","🚒"],key:"C"},
+      {shown:["🚓","🔬","🍳","🚒"],key:"A"},
+      {shown:["🚓","🍳","🩺","🚒"],key:"E"},
+      {shown:["🚓","🩺","🍳","🔬"],key:"B"},
+      {shown:["🚓","🚒","🔬","🩺"],key:"D"},
+      {shown:["🚒","🚓","🔬","🩺"],key:"D"},
+      {shown:["🩺","🍳","🔬","🚒"],key:"C"},
+      {shown:["🍳","🚓","🚒","🔬"],key:"A"},
+      {shown:["🍳","🚓","🩺","🚒"],key:"E"},
+      {shown:["🔬","🍳","🚓","🩺"],key:"B"},
+      {shown:["🔬","🍳","🚒","🩺"],key:"C"},
+      {shown:["🚒","🩺","🚓","🔬"],key:"D"},
+      {shown:["🚒","🍳","🩺","🚓"],key:"E"},
+      {shown:["🩺","🔬","🚓","🍳"],key:"B"},
+      {shown:["🍳","🚓","🔬","🚒"],key:"A"},
+      {shown:["🚒","🩺","🚓","🍳"],key:"E"},
+      {shown:["🔬","🚓","🩺","🍳"],key:"B"},
+      {shown:["🚒","🩺","🍳","🔬"],key:"C"},
+      {shown:["🚒","🔬","🚓","🍳"],key:"A"},
+      {shown:["🚒","🚓","🔬","🩺"],key:"D"},
+      {shown:["🔬","🚓","🍳","🩺"],key:"B"},
+      {shown:["🍳","🚒","🔬","🩺"],key:"C"},
+      {shown:["🍳","🔬","🚒","🚓"],key:"A"},
+      {shown:["🍳","🚒","🚓","🩺"],key:"E"},
+      {shown:["🚒","🔬","🩺","🚓"],key:"D"},
+      {shown:["🍳","🚒","🚓","🩺"],key:"E"},
+      {shown:["🩺","🚒","🍳","🔬"],key:"C"},
+      {shown:["🔬","🚓","🚒","🩺"],key:"D"},
+      {shown:["🍳","🚒","🔬","🚓"],key:"A"},
+      {shown:["🍳","🚓","🔬","🩺"],key:"B"},
+      {shown:["🔬","🩺","🚒","🚓"],key:"D"},
+      {shown:["🚓","🚒","🔬","🍳"],key:"A"},
+      {shown:["🍳","🔬","🩺","🚓"],key:"B"},
+      {shown:["🩺","🍳","🚓","🚒"],key:"E"},
+      {shown:["🚒","🔬","🍳","🩺"],key:"C"},
+      {shown:["🩺","🍳","🚒","🚓"],key:"E"},
+      {shown:["🚓","🩺","🚒","🔬"],key:"D"},
+      {shown:["🚒","🚓","🍳","🔬"],key:"A"},
+      {shown:["🍳","🩺","🔬","🚒"],key:"C"},
+      {shown:["🍳","🚓","🩺","🔬"],key:"B"},
+      {shown:["🚓","🍳","🚒","🔬"],key:"A"},
+      {shown:["🩺","🍳","🚓","🚒"],key:"E"},
+      {shown:["🩺","🍳","🚒","🔬"],key:"C"},
+      {shown:["🚓","🍳","🩺","🔬"],key:"B"},
+      {shown:["🚓","🚒","🩺","🔬"],key:"D"}
+    ]
+  },
+  {
+    name: "Kolom XVII", roman: "XVII",
+    symbols: { A:"☕", B:"🧃", C:"🍵", D:"🧋", E:"🥤" },
+    questions: [
+      {shown:["🧃","☕","🧋","🥤"],key:"C"},
+      {shown:["🍵","🧃","☕","🧋"],key:"E"},
+      {shown:["🍵","🥤","☕","🧃"],key:"D"},
+      {shown:["🍵","🥤","🧃","🧋"],key:"A"},
+      {shown:["🍵","🧋","🥤","☕"],key:"B"},
+      {shown:["🧃","🍵","🥤","🧋"],key:"A"},
+      {shown:["🍵","☕","🧃","🥤"],key:"D"},
+      {shown:["🥤","🧃","☕","🧋"],key:"C"},
+      {shown:["☕","🥤","🍵","🧋"],key:"B"},
+      {shown:["☕","🧋","🍵","🧃"],key:"E"},
+      {shown:["🍵","🥤","☕","🧃"],key:"D"},
+      {shown:["🍵","🧃","🧋","☕"],key:"E"},
+      {shown:["🍵","🧃","🥤","🧋"],key:"A"},
+      {shown:["🍵","🧋","🥤","☕"],key:"B"},
+      {shown:["🥤","🧋","🧃","☕"],key:"C"},
+      {shown:["🥤","🧋","☕","🧃"],key:"C"},
+      {shown:["🥤","🧃","🍵","☕"],key:"D"},
+      {shown:["🧋","🧃","🍵","🥤"],key:"A"},
+      {shown:["☕","🥤","🧋","🍵"],key:"B"},
+      {shown:["🧋","☕","🍵","🧃"],key:"E"},
+      {shown:["🧃","☕","🍵","🧋"],key:"E"},
+      {shown:["🧋","☕","🍵","🥤"],key:"B"},
+      {shown:["🧃","🧋","🥤","🍵"],key:"A"},
+      {shown:["🥤","☕","🧃","🍵"],key:"D"},
+      {shown:["🥤","☕","🧋","🧃"],key:"C"},
+      {shown:["🧋","🥤","🍵","🧃"],key:"A"},
+      {shown:["☕","🥤","🧋","🧃"],key:"C"},
+      {shown:["☕","🧋","🍵","🧃"],key:"E"},
+      {shown:["🍵","☕","🧋","🥤"],key:"B"},
+      {shown:["🍵","🥤","☕","🧃"],key:"D"},
+      {shown:["🧃","☕","🥤","🍵"],key:"D"},
+      {shown:["🥤","☕","🧋","🧃"],key:"C"},
+      {shown:["🧋","🥤","🧃","🍵"],key:"A"},
+      {shown:["🍵","🧃","🧋","☕"],key:"E"},
+      {shown:["🧋","☕","🍵","🥤"],key:"B"},
+      {shown:["☕","🍵","🥤","🧃"],key:"D"},
+      {shown:["🧋","🧃","☕","🥤"],key:"C"},
+      {shown:["☕","🍵","🧋","🧃"],key:"E"},
+      {shown:["🧃","🍵","🥤","🧋"],key:"A"},
+      {shown:["🥤","☕","🧋","🍵"],key:"B"},
+      {shown:["🧋","🍵","🧃","🥤"],key:"A"},
+      {shown:["🧃","☕","🧋","🥤"],key:"C"},
+      {shown:["🧋","☕","🍵","🥤"],key:"B"},
+      {shown:["☕","🍵","🧃","🥤"],key:"D"},
+      {shown:["🧃","🧋","🍵","☕"],key:"E"},
+      {shown:["🍵","🧋","🧃","🥤"],key:"A"},
+      {shown:["☕","🍵","🥤","🧃"],key:"D"},
+      {shown:["🥤","☕","🧃","🧋"],key:"C"},
+      {shown:["🍵","☕","🧃","🧋"],key:"E"},
+      {shown:["🧋","☕","🥤","🍵"],key:"B"}
+    ]
+  },
+  {
+    name: "Kolom XVIII", roman: "XVIII",
+    symbols: { A:"🏠", B:"🏯", C:"🕌", D:"⛪", E:"🗼" },
+    questions: [
+      {shown:["🏠","⛪","🗼","🕌"],key:"B"},
+      {shown:["🗼","🏠","🏯","⛪"],key:"C"},
+      {shown:["🕌","⛪","🏠","🏯"],key:"E"},
+      {shown:["🗼","🏠","🕌","🏯"],key:"D"},
+      {shown:["⛪","🗼","🕌","🏯"],key:"A"},
+      {shown:["🕌","🗼","⛪","🏯"],key:"A"},
+      {shown:["🗼","🏯","🏠","🕌"],key:"D"},
+      {shown:["🏠","🏯","🕌","⛪"],key:"E"},
+      {shown:["🗼","🕌","🏠","⛪"],key:"B"},
+      {shown:["🗼","🏯","🏠","⛪"],key:"C"},
+      {shown:["🗼","⛪","🕌","🏯"],key:"A"},
+      {shown:["🏠","🕌","⛪","🏯"],key:"E"},
+      {shown:["🗼","🏠","🕌","🏯"],key:"D"},
+      {shown:["🏠","🗼","🏯","⛪"],key:"C"},
+      {shown:["⛪","🗼","🏠","🕌"],key:"B"},
+      {shown:["🏯","⛪","🕌","🏠"],key:"E"},
+      {shown:["⛪","🏠","🗼","🕌"],key:"B"},
+      {shown:["🗼","🏠","🕌","🏯"],key:"D"},
+      {shown:["🏯","🗼","🕌","⛪"],key:"A"},
+      {shown:["🏠","🗼","⛪","🏯"],key:"C"},
+      {shown:["🏯","🕌","🏠","⛪"],key:"E"},
+      {shown:["⛪","🏠","🗼","🕌"],key:"B"},
+      {shown:["🗼","⛪","🏯","🏠"],key:"C"},
+      {shown:["🕌","🏯","⛪","🗼"],key:"A"},
+      {shown:["🗼","🏯","🕌","🏠"],key:"D"},
+      {shown:["🗼","🕌","🏠","⛪"],key:"B"},
+      {shown:["⛪","🏯","🗼","🏠"],key:"C"},
+      {shown:["🗼","🏯","🕌","⛪"],key:"A"},
+      {shown:["🏠","⛪","🕌","🏯"],key:"E"},
+      {shown:["🗼","🏠","🕌","🏯"],key:"D"},
+      {shown:["🏠","⛪","🕌","🗼"],key:"B"},
+      {shown:["⛪","🕌","🏠","🏯"],key:"E"},
+      {shown:["🗼","🏯","🕌","🏠"],key:"D"},
+      {shown:["🏯","🗼","⛪","🏠"],key:"C"},
+      {shown:["⛪","🗼","🕌","🏯"],key:"A"},
+      {shown:["🏠","🏯","⛪","🕌"],key:"E"},
+      {shown:["🏠","⛪","🏯","🗼"],key:"C"},
+      {shown:["🗼","🏠","⛪","🕌"],key:"B"},
+      {shown:["🏯","🗼","🏠","🕌"],key:"D"},
+      {shown:["⛪","🗼","🏯","🕌"],key:"A"},
+      {shown:["⛪","🏠","🏯","🕌"],key:"E"},
+      {shown:["🏠","🗼","🕌","🏯"],key:"D"},
+      {shown:["🏠","🗼","🕌","⛪"],key:"B"},
+      {shown:["🗼","🏯","🏠","⛪"],key:"C"},
+      {shown:["⛪","🗼","🕌","🏯"],key:"A"},
+      {shown:["🕌","⛪","🏠","🏯"],key:"E"},
+      {shown:["⛪","🗼","🕌","🏯"],key:"A"},
+      {shown:["🕌","🗼","🏠","🏯"],key:"D"},
+      {shown:["⛪","🕌","🏠","🗼"],key:"B"},
+      {shown:["⛪","🏯","🏠","🗼"],key:"C"}
+    ]
+  },
+  {
+    name: "Kolom XIX", roman: "XIX",
+    symbols: { A:"🎭", B:"🎨", C:"🖼️", D:"🎬", E:"🎪" },
+    questions: [
+      {shown:["🎪","🎬","🖼️","🎨"],key:"A"},
+      {shown:["🎭","🖼️","🎪","🎨"],key:"D"},
+      {shown:["🎬","🎨","🎭","🖼️"],key:"E"},
+      {shown:["🎨","🎬","🎭","🎪"],key:"C"},
+      {shown:["🎬","🎭","🎪","🖼️"],key:"B"},
+      {shown:["🎭","🎬","🎪","🖼️"],key:"B"},
+      {shown:["🖼️","🎭","🎬","🎨"],key:"E"},
+      {shown:["🎬","🎨","🖼️","🎪"],key:"A"},
+      {shown:["🎪","🎨","🎬","🎭"],key:"C"},
+      {shown:["🎨","🖼️","🎪","🎭"],key:"D"},
+      {shown:["🎬","🎭","🎪","🖼️"],key:"B"},
+      {shown:["🎭","🎪","🎬","🎨"],key:"C"},
+      {shown:["🖼️","🎨","🎭","🎬"],key:"E"},
+      {shown:["🎨","🎬","🖼️","🎪"],key:"A"},
+      {shown:["🎭","🎪","🖼️","🎨"],key:"D"},
+      {shown:["🖼️","🎬","🎨","🎭"],key:"E"},
+      {shown:["🎪","🎨","🎬","🖼️"],key:"A"},
+      {shown:["🎭","🎨","🎪","🎬"],key:"C"},
+      {shown:["🎪","🖼️","🎭","🎬"],key:"B"},
+      {shown:["🎨","🎪","🎭","🖼️"],key:"D"},
+      {shown:["🖼️","🎬","🎭","🎨"],key:"E"},
+      {shown:["🎬","🖼️","🎪","🎭"],key:"B"},
+      {shown:["🎬","🎪","🖼️","🎨"],key:"A"},
+      {shown:["🎨","🎭","🎪","🖼️"],key:"D"},
+      {shown:["🎨","🎭","🎬","🎪"],key:"C"},
+      {shown:["🎨","🖼️","🎭","🎬"],key:"E"},
+      {shown:["🎪","🎨","🖼️","🎬"],key:"A"},
+      {shown:["🖼️","🎨","🎪","🎭"],key:"D"},
+      {shown:["🎭","🖼️","🎬","🎪"],key:"B"},
+      {shown:["🎭","🎨","🎬","🎪"],key:"C"},
+      {shown:["🖼️","🎪","🎬","🎨"],key:"A"},
+      {shown:["🎬","🎪","🎭","🎨"],key:"C"},
+      {shown:["🎨","🖼️","🎬","🎭"],key:"E"},
+      {shown:["🖼️","🎭","🎪","🎨"],key:"D"},
+      {shown:["🎪","🎬","🎭","🖼️"],key:"B"},
+      {shown:["🎭","🖼️","🎨","🎬"],key:"E"},
+      {shown:["🎨","🎭","🎪","🖼️"],key:"D"},
+      {shown:["🖼️","🎬","🎭","🎪"],key:"B"},
+      {shown:["🎪","🎨","🎬","🎭"],key:"C"},
+      {shown:["🎬","🖼️","🎨","🎪"],key:"A"},
+      {shown:["🎬","🎭","🖼️","🎪"],key:"B"},
+      {shown:["🎨","🎭","🎬","🖼️"],key:"E"},
+      {shown:["🎪","🎨","🎬","🎭"],key:"C"},
+      {shown:["🎨","🎭","🖼️","🎪"],key:"D"},
+      {shown:["🖼️","🎨","🎪","🎬"],key:"A"},
+      {shown:["🖼️","🎭","🎪","🎬"],key:"B"},
+      {shown:["🖼️","🎨","🎪","🎬"],key:"A"},
+      {shown:["🎨","🎭","🎬","🎪"],key:"C"},
+      {shown:["🎭","🎪","🎨","🖼️"],key:"D"},
+      {shown:["🎬","🎨","🎭","🖼️"],key:"E"}
+    ]
+  },
+  {
+    name: "Kolom XX", roman: "XX",
+    symbols: { A:"👑", B:"🏆", C:"🗺️", D:"⚖️", E:"🛡️" },
+    questions: [
+      {shown:["🏆","🛡️","⚖️","🗺️"],key:"A"},
+      {shown:["🗺️","⚖️","👑","🛡️"],key:"B"},
+      {shown:["🗺️","🏆","👑","🛡️"],key:"D"},
+      {shown:["🏆","🛡️","👑","⚖️"],key:"C"},
+      {shown:["👑","🗺️","🏆","⚖️"],key:"E"},
+      {shown:["👑","🏆","⚖️","🗺️"],key:"E"},
+      {shown:["👑","⚖️","🗺️","🛡️"],key:"B"},
+      {shown:["👑","🗺️","🛡️","🏆"],key:"D"},
+      {shown:["⚖️","🏆","🗺️","🛡️"],key:"A"},
+      {shown:["🛡️","🏆","⚖️","👑"],key:"C"},
+      {shown:["🏆","🗺️","👑","⚖️"],key:"E"},
+      {shown:["🛡️","🏆","🗺️","👑"],key:"D"},
+      {shown:["👑","⚖️","🛡️","🗺️"],key:"B"},
+      {shown:["🗺️","🛡️","⚖️","🏆"],key:"A"},
+      {shown:["🏆","👑","⚖️","🛡️"],key:"C"},
+      {shown:["⚖️","🏆","👑","🗺️"],key:"E"},
+      {shown:["🛡️","👑","🗺️","🏆"],key:"D"},
+      {shown:["🛡️","⚖️","🗺️","🏆"],key:"A"},
+      {shown:["🏆","⚖️","👑","🛡️"],key:"C"},
+      {shown:["👑","🛡️","🗺️","⚖️"],key:"B"},
+      {shown:["🛡️","🏆","⚖️","👑"],key:"C"},
+      {shown:["👑","🗺️","🛡️","🏆"],key:"D"},
+      {shown:["🛡️","🗺️","⚖️","🏆"],key:"A"},
+      {shown:["⚖️","👑","🛡️","🗺️"],key:"B"},
+      {shown:["🏆","👑","🗺️","⚖️"],key:"E"},
+      {shown:["🏆","🛡️","👑","⚖️"],key:"C"},
+      {shown:["🗺️","👑","🏆","⚖️"],key:"E"},
+      {shown:["🛡️","⚖️","🏆","🗺️"],key:"A"},
+      {shown:["🗺️","👑","🏆","🛡️"],key:"D"},
+      {shown:["🛡️","👑","🗺️","⚖️"],key:"B"},
+      {shown:["🗺️","🛡️","🏆","⚖️"],key:"A"},
+      {shown:["🗺️","👑","🛡️","🏆"],key:"D"},
+      {shown:["🏆","👑","⚖️","🛡️"],key:"C"},
+      {shown:["🛡️","⚖️","👑","🗺️"],key:"B"},
+      {shown:["👑","🗺️","🏆","⚖️"],key:"E"},
+      {shown:["🛡️","⚖️","🗺️","🏆"],key:"A"},
+      {shown:["🏆","🛡️","👑","⚖️"],key:"C"},
+      {shown:["👑","🏆","🗺️","⚖️"],key:"E"},
+      {shown:["👑","🏆","🛡️","🗺️"],key:"D"},
+      {shown:["⚖️","🛡️","🗺️","👑"],key:"B"},
+      {shown:["👑","🗺️","⚖️","🛡️"],key:"B"},
+      {shown:["👑","🏆","⚖️","🛡️"],key:"C"},
+      {shown:["🛡️","🏆","🗺️","⚖️"],key:"A"},
+      {shown:["🛡️","🗺️","👑","🏆"],key:"D"},
+      {shown:["⚖️","🗺️","👑","🏆"],key:"E"},
+      {shown:["🗺️","🛡️","🏆","⚖️"],key:"A"},
+      {shown:["🛡️","👑","⚖️","🏆"],key:"C"},
+      {shown:["🛡️","⚖️","🗺️","👑"],key:"B"},
+      {shown:["👑","🏆","🗺️","⚖️"],key:"E"},
+      {shown:["🏆","👑","🛡️","🗺️"],key:"D"}
+    ]
+  }
+];
+
+
+const ROMAN = ['XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX'];
+
+let state = {
+  participantName: '',
+  currentKolom: 0,
+  currentQuestion: 0,
+  answers: [],
+  kolomAnswers: [],
+};
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+}
+
+function globalProgress() {
+  const total = KOLOM_DATA.length * 50;
+  const done = state.currentKolom * 50 + state.currentQuestion;
+  return (done / total) * 100;
+}
+
+function renderKeyRow(headEl, bodyEl, kolom) {
+  const syms = kolom.symbols;
+  headEl.innerHTML = ['A','B','C','D','E'].map(l => '<th>' + l + '</th>').join('');
+  bodyEl.innerHTML = ['A','B','C','D','E'].map(l => '<td>' + syms[l] + '</td>').join('');
+}
+
+function transition(text, cb) {
+  const overlay = document.getElementById('transOverlay');
+  document.getElementById('transText').textContent = text;
+  overlay.classList.add('active');
+  setTimeout(() => { cb(); setTimeout(() => overlay.classList.remove('active'), 300); }, 600);
+}
+
+function startTest() {
+  const name = document.getElementById('participantName').value.trim();
+  if (!name) {
+    const inp = document.getElementById('participantName');
+    inp.focus();
+    inp.style.borderColor = '#C0392B';
+    setTimeout(() => inp.style.borderColor = '', 1500);
+    return;
+  }
+  state.participantName = name;
+  state.currentKolom = 0;
+  state.answers = [];
+  goToKolomIntro();
+}
+
+function goToKolomIntro() {
+  const k = KOLOM_DATA[state.currentKolom];
+  document.getElementById('introParticipantName').textContent = state.participantName;
+  document.getElementById('introKolomLabel').textContent = 'Kolom ' + ROMAN[state.currentKolom] + ' dari XX';
+  document.getElementById('introKolomTitle').textContent = k.name;
+  document.getElementById('introQCount').textContent = k.questions.length;
+  document.getElementById('introProgress').style.width = globalProgress() + '%';
+  renderKeyRow(document.getElementById('introKeyHead'), document.getElementById('introKeyBody'), k);
+  state.currentQuestion = 0;
+  state.kolomAnswers = new Array(k.questions.length).fill(null);
+  showScreen('kolom-intro');
+}
+
+function startKolom() { showQuestion(); }
+
+function showQuestion() {
+  const k = KOLOM_DATA[state.currentKolom];
+  const q = k.questions[state.currentQuestion];
+  const qIdx = state.currentQuestion;
+  const total = k.questions.length;
+  const isLast = qIdx === total - 1;
+  const isLastKolom = state.currentKolom === KOLOM_DATA.length - 1;
+
+  document.getElementById('globalProgress').style.width = globalProgress() + '%';
+  document.getElementById('qProgressText').textContent = 'Soal ' + (qIdx+1) + '/' + total;
+  document.getElementById('qNumDisplay').textContent = 'Soal ' + (qIdx + 1 + state.currentKolom * 50);
+  document.getElementById('qKolomBadge').textContent = k.name + ' (' + (state.currentKolom+1) + '/10)';
+  document.getElementById('qParticipantName').textContent = state.participantName;
+  document.getElementById('qProgressBar').style.width = ((qIdx+1)/total*100) + '%';
+
+  renderKeyRow(document.getElementById('qKeyHead'), document.getElementById('qKeyBody'), k);
+  document.getElementById('soalSymbols').innerHTML = q.shown.map(s => '<div class="soal-cell">' + s + '</div>').join('');
+
+  const selected = state.kolomAnswers[qIdx];
+  document.getElementById('answerOptions').innerHTML = ['A','B','C','D','E'].map(l =>
+    '<button class="answer-btn ' + (selected === l ? 'selected' : '') + '" data-key="' + l + '" onclick="selectAnswer(this.dataset.key)" id="ans-' + l + '"><span class="ans-letter">' + l + '</span></button>'
+  ).join('');
+
+  const nextBtn = document.getElementById('nextBtn');
+  const finishBtn = document.getElementById('finishBtn');
+  const earlySubmitBtn = document.getElementById('earlySubmitBtn');
+
+  if (isLast && isLastKolom) {
+    nextBtn.style.display = 'none';
+    finishBtn.style.display = 'flex';
+    earlySubmitBtn.style.display = 'none';
+  } else if (isLast) {
+    nextBtn.textContent = 'Lanjut ke ' + (KOLOM_DATA[state.currentKolom+1]?.name || 'Selesai') + ' →';
+    nextBtn.style.display = 'flex';
+    finishBtn.style.display = 'none';
+    earlySubmitBtn.style.display = 'block';
+  } else {
+    nextBtn.textContent = 'Berikutnya →';
+    nextBtn.style.display = 'flex';
+    finishBtn.style.display = 'none';
+    earlySubmitBtn.style.display = 'block';
+  }
+  showScreen('question');
+}
+
+function selectAnswer(key) {
+  state.kolomAnswers[state.currentQuestion] = key;
+  document.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
+  const btn = document.getElementById('ans-' + key);
+  if (btn) btn.classList.add('selected');
+}
+
+function nextQuestion() {
+  const k = KOLOM_DATA[state.currentKolom];
+  if (state.currentQuestion === k.questions.length - 1) {
+    state.answers.push([...state.kolomAnswers]);
+    state.currentKolom++;
+    if (state.currentKolom < KOLOM_DATA.length) {
+      transition('Kolom ' + ROMAN[state.currentKolom] + ' akan dimulai...', goToKolomIntro);
+    } else {
+      showResults();
+    }
+  } else {
+    state.currentQuestion++;
+    showQuestion();
+  }
+}
+
+function finishExam() {
+  state.answers.push([...state.kolomAnswers]);
+  showResults();
+}
+
+function confirmEarlySubmit() {
+  if (confirm('Apakah Anda yakin ingin mengakhiri simulasi sekarang? Soal yang belum dikerjakan dianggap salah.')) {
+    state.answers.push([...state.kolomAnswers]);
+    for (let i = state.currentKolom + 1; i < KOLOM_DATA.length; i++) {
+      state.answers.push(new Array(KOLOM_DATA[i].questions.length).fill(null));
+    }
+    showResults();
+  }
+}
+
+function showResults() {
+  let totalCorrect = 0, totalWrong = 0;
+  const kolomStats = [];
+
+  KOLOM_DATA.forEach((k, ki) => {
+    const kAnswers = state.answers[ki] || [];
+    let kCorrect = 0, kWrong = 0;
+    const wrongDetails = [];
+    k.questions.forEach((q, qi) => {
+      const given = kAnswers[qi];
+      if (given === q.key) {
+        kCorrect++;
+      } else {
+        kWrong++;
+        wrongDetails.push({
+          no: qi+1,
+          shown: q.shown,
+          given,
+          givenSymbol: given ? k.symbols[given] : '—',
+          correctKey: q.key,
+          correctSymbol: k.symbols[q.key]
+        });
+      }
+    });
+    kolomStats.push({ name: k.name, correct: kCorrect, wrong: kWrong, total: k.questions.length, wrongDetails });
+    totalCorrect += kCorrect;
+    totalWrong += kWrong;
+  });
+
+  const total = totalCorrect + totalWrong;
+  const pct = Math.round((totalCorrect / total) * 100);
+
+  document.getElementById('resultsName').textContent = state.participantName;
+  document.getElementById('resultsDate').textContent = new Date().toLocaleDateString('id-ID', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  document.getElementById('rCorrect').textContent = totalCorrect;
+  document.getElementById('rWrong').textContent = totalWrong;
+  document.getElementById('rScore').textContent = pct + '%';
+
+  let grade, desc, color;
+  if (pct >= 90)      { grade='Sangat Baik';     desc='Tingkat kecermatan visual sangat tinggi';      color='var(--sage)'; }
+  else if (pct >= 75) { grade='Baik';             desc='Kecermatan di atas rata-rata';                color='var(--sage-light)'; }
+  else if (pct >= 60) { grade='Cukup';            desc='Perlu peningkatan kecepatan dan ketelitian';  color='var(--gold-dark)'; }
+  else if (pct >= 45) { grade='Kurang';           desc='Latihan intensif sangat disarankan';          color='var(--red)'; }
+  else                { grade='Perlu Bimbingan';  desc='Fokus pada peningkatan dasar kecermatan';     color='var(--red)'; }
+
+  document.getElementById('perfGrade').textContent = grade;
+  document.getElementById('perfGrade').style.color = color;
+  document.getElementById('perfDesc').textContent = desc;
+
+  document.getElementById('kolomBreakdown').innerHTML = kolomStats.map((s, idx) => {
+    const pctK = Math.round((s.correct / s.total) * 100);
+    const pembahasanContent = s.wrongDetails.length === 0
+      ? '<div class="pembahasan-semua-benar">✓ Semua soal dijawab benar</div>'
+      : s.wrongDetails.map(d =>
+          '<div class="pembahasan-item">' +
+          '<span class="pb-no">No.' + d.no + '</span>' +
+          '<span class="pb-soal">Soal: ' + d.shown.join(' ') + '</span>' +
+          '<span class="pb-pilih">' + (d.given ? 'Dijawab: <strong>' + d.given + '</strong> ' + d.givenSymbol : '<em>Tidak dijawab</em>') + '</span>' +
+          '<span class="pb-benar">Seharusnya: <strong>' + d.correctKey + '</strong> ' + d.correctSymbol + '</span>' +
+          '</div>'
+        ).join('');
+    return '<div class="kolom-row">' +
+      '<div class="kolom-row-summary" onclick="togglePembahasan(' + idx + ')" title="Klik untuk lihat pembahasan">' +
+      '<span class="kolom-row-name">' + s.name + '</span>' +
+      '<span class="kolom-row-correct">✓ ' + s.correct + '</span>' +
+      '<span class="kolom-row-wrong">✗ ' + s.wrong + '</span>' +
+      '<div class="score-bar-wrap"><div class="score-bar-fill" style="width:0%"></div></div>' +
+      '<span class="kolom-row-pct">' + pctK + '%</span>' +
+      '<span class="pembahasan-toggle" id="toggle-' + idx + '">▼</span>' +
+      '</div>' +
+      '<div class="pembahasan-wrap" id="pembahasan-' + idx + '">' + pembahasanContent + '</div>' +
+      '</div>';
+  }).join('');
+
+  showScreen('results');
+
+  setTimeout(() => {
+    document.querySelectorAll('.score-bar-fill').forEach((b, i) => {
+      const pctK = Math.round((kolomStats[i].correct / kolomStats[i].total) * 100);
+      b.style.width = pctK + '%';
+    });
+  }, 100);
+}
+
+function togglePembahasan(idx) {
+  const wrap = document.getElementById('pembahasan-' + idx);
+  const toggle = document.getElementById('toggle-' + idx);
+  if (!wrap) return;
+  const isOpen = wrap.classList.toggle('open');
+  toggle.classList.toggle('open', isOpen);
+}
+
+function restartTest() {
+  state = { participantName:'', currentKolom:0, currentQuestion:0, answers:[], kolomAnswers:[] };
+  document.getElementById('participantName').value = '';
+  showScreen('landing');
+}
+</script>
+</body>
+</html>
